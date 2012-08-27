@@ -1145,7 +1145,7 @@ Author:URL               CSTRING(256) !URL to Author's site
 %ProcedureAutoBindProceduresIgnored MULTI LONG  ()
 %ProcedureAutoBindProcedureIgnored DEPEND %ProcedureAutoBindProceduresIgnored DEFAULT TIMES 0
 
-%ProcedureAutoBindValidToAddField LONG  (0)
+%ProcedureAutoBindValidToAddField LONG  (1)
 %ProcedureUserBindFields MULTI LONG  ()
 %ProcedureUserBindField DEPEND %ProcedureUserBindFields FIELD TIMES 0
 
@@ -1290,9 +1290,9 @@ Window  WINDOW('About Ham213'),AT(,,196,154),FONT('MS Sans Serif',8),GRAY
           BUTTON('Cl&ose'),AT(71,135,54,18),USE(?Close:Button),LEFT,ICON('xpClose.ico'),DEFAULT, |
             FLAT,#ORIG(?Close),#SEQ(1),#ORDINAL(7)
           PROMPT('Version:'),AT(3,38),USE(?Version:Prompt),FONT('Microsoft Sans Serif',,,FONT:bold), |
-            #ORDINAL(8)
-          PROMPT('version number'),AT(37,38),USE(?VersionNumber:Prompt),#ORDINAL(9)
-          PROMPT('license text'),AT(2,109,187,22),USE(?License:Prompt),#ORDINAL(10)
+            #ORDINAL(10001)
+          PROMPT('version number'),AT(37,38),USE(?VersionNumber:Prompt),#ORDINAL(10002)
+          PROMPT('license text'),AT(2,109,187,22),USE(?License:Prompt),#ORDINAL(10003)
         END
 
 [END]
