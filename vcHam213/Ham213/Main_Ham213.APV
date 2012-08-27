@@ -1040,7 +1040,7 @@ Window  WINDOW('Caption'),AT(,,395,224),FONT('MS Sans Serif',8),GRAY
 NAME AboutHam213
 [COMMON]
 FROM Clarion Window
-MODIFIED '2011/12/05' '15:06:26'
+MODIFIED '2012/08/27' '16:27:57'
 [DATA]
 LocalRequest             LONG
 !!> GUID('4cf87139-2e4e-4970-8656-9bbc4b3f612e')
@@ -1145,7 +1145,7 @@ Author:URL               CSTRING(256) !URL to Author's site
 %ProcedureAutoBindProceduresIgnored MULTI LONG  ()
 %ProcedureAutoBindProcedureIgnored DEPEND %ProcedureAutoBindProceduresIgnored DEFAULT TIMES 0
 
-%ProcedureAutoBindValidToAddField LONG  (1)
+%ProcedureAutoBindValidToAddField LONG  (0)
 %ProcedureUserBindFields MULTI LONG  ()
 %ProcedureUserBindField DEPEND %ProcedureUserBindFields FIELD TIMES 0
 
@@ -1161,8 +1161,7 @@ Author:URL               CSTRING(256) !URL to Author's site
 
 %ProcedureUserBindExpression DEPEND %ProcedureUserBindExpressions DEFAULT TIMES 0
 
-%ButtonAction DEPEND %Control DEFAULT TIMES 2
-WHEN  ('') ('No Special Action')
+%ButtonAction DEPEND %Control DEFAULT TIMES 1
 WHEN  ('?Close:Button') ('No Special Action')
 
 %ButtonRunName DEPEND %Control DEFAULT TIMES 0
@@ -1173,8 +1172,7 @@ WHEN  ('?Close:Button') ('No Special Action')
 
 %ButtonThread DEPEND %Control LONG TIMES 0
 
-%ButtonThreadStack DEPEND %Control DEFAULT TIMES 2
-WHEN  ('') ('25000')
+%ButtonThreadStack DEPEND %Control DEFAULT TIMES 1
 WHEN  ('?Close:Button') ('25000')
 
 %ButtonParameters DEPEND %Control DEFAULT TIMES 0
@@ -1183,8 +1181,7 @@ WHEN  ('?Close:Button') ('25000')
 
 %ButtonReturnValueReferenceAssign DEPEND %Control LONG TIMES 0
 
-%ButtonRequest DEPEND %Control DEFAULT TIMES 2
-WHEN  ('') ('None')
+%ButtonRequest DEPEND %Control DEFAULT TIMES 1
 WHEN  ('?Close:Button') ('None')
 
 %ButtonThreadParameters DEPEND %Control DEFAULT TIMES 0
@@ -1207,8 +1204,7 @@ WHEN  ('?Close:Button') ('None')
 
 %PostLookupProcedureParameters DEPEND %Control DEFAULT TIMES 0
 
-%PostLookupDuringValidate DEPEND %Control LONG TIMES 2
-WHEN  ('') (1)
+%PostLookupDuringValidate DEPEND %Control LONG TIMES 1
 WHEN  ('?Author:URL') (1)
 
 %LookupAssign DEPEND %Control MULTI LONG TIMES 0
@@ -1229,15 +1225,13 @@ WHEN  ('?Author:URL') (1)
 
 %CheckedControl DEPEND %CheckedHides DEFAULT TIMES 0
 
-%CheckedControlAction DEPEND %CheckedHides DEFAULT TIMES 1
-WHEN  ('')TIMES 0
+%CheckedControlAction DEPEND %CheckedHides DEFAULT TIMES 0
 
 %CheckedDisables DEPEND %Control MULTI LONG TIMES 0
 
 %CheckedDisableControl DEPEND %CheckedDisables DEFAULT TIMES 0
 
-%CheckedDisableControlAction DEPEND %CheckedDisables DEFAULT TIMES 1
-WHEN  ('')TIMES 0
+%CheckedDisableControlAction DEPEND %CheckedDisables DEFAULT TIMES 0
 
 %UncheckedAssigns DEPEND %Control MULTI LONG TIMES 0
 
@@ -1249,22 +1243,19 @@ WHEN  ('')TIMES 0
 
 %UnCheckedControl DEPEND %UnCheckedHides DEFAULT TIMES 0
 
-%UnCheckedControlAction DEPEND %UnCheckedHides DEFAULT TIMES 1
-WHEN  ('')TIMES 0
+%UnCheckedControlAction DEPEND %UnCheckedHides DEFAULT TIMES 0
 
 %UnCheckedDisables DEPEND %Control MULTI LONG TIMES 0
 
 %UnCheckedDisableControl DEPEND %UnCheckedDisables DEFAULT TIMES 0
 
-%UnCheckedDisableControlAction DEPEND %UnCheckedDisables DEFAULT TIMES 1
-WHEN  ('')TIMES 0
+%UnCheckedDisableControlAction DEPEND %UnCheckedDisables DEFAULT TIMES 0
 
 %ExtUITabIcon DEPEND %Control DEFAULT TIMES 0
 
 %ExtUITabStyleOverrideGlobal DEPEND %Control LONG TIMES 0
 
-%ExtUITabStyle DEPEND %Control DEFAULT TIMES 1
-WHEN  ('') ('Default')
+%ExtUITabStyle DEPEND %Control DEFAULT TIMES 0
 
 [EMBED]
 EMBED %AfterWindowOpening
@@ -1299,9 +1290,9 @@ Window  WINDOW('About Ham213'),AT(,,196,154),FONT('MS Sans Serif',8),GRAY
           BUTTON('Cl&ose'),AT(71,135,54,18),USE(?Close:Button),LEFT,ICON('xpClose.ico'),DEFAULT, |
             FLAT,#ORIG(?Close),#SEQ(1),#ORDINAL(7)
           PROMPT('Version:'),AT(3,38),USE(?Version:Prompt),FONT('Microsoft Sans Serif',,,FONT:bold), |
-            #ORDINAL(10001)
-          PROMPT('version number'),AT(37,38),USE(?VersionNumber:Prompt),#ORDINAL(10002)
-          PROMPT('license text'),AT(2,109,187,22),USE(?License:Prompt),#ORDINAL(10003)
+            #ORDINAL(8)
+          PROMPT('version number'),AT(37,38),USE(?VersionNumber:Prompt),#ORDINAL(9)
+          PROMPT('license text'),AT(2,109,187,22),USE(?License:Prompt),#ORDINAL(10)
         END
 
 [END]
