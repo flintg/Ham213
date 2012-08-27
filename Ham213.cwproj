@@ -34,12 +34,6 @@
     <Compile Include="Ham213.clw">
       <Generated>true</Generated>
     </Compile>
-    <Compile Include="Ham213001.clw">
-      <Generated>true</Generated>
-    </Compile>
-    <Compile Include="Ham213002.clw">
-      <Generated>true</Generated>
-    </Compile>
     <Compile Include="Ham21_RD.CLW">
       <Generated>true</Generated>
     </Compile>

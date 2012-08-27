@@ -1,0 +1,1307 @@
+[MODULE]
+NAME 'Main_Ham213.clw'
+[COMMON]
+FROM Clarion GENERATED
+[PROCEDURE]
+NAME Main
+[COMMON]
+FROM Clarion Window
+MODIFIED '2011/12/14' '17:07:30'
+[DATA]
+LocalRequest             LONG
+!!> GUID('54cd7231-c685-49f6-b8b0-aa25bfde2ee5')
+OriginalRequest          LONG
+!!> GUID('19621f2f-1afe-48bd-a787-b7ba26dc58eb')
+LocalResponse            LONG
+!!> GUID('9f0e98ca-b565-4177-9def-942cb3a2705f')
+FilesOpened              LONG
+!!> GUID('ab4c7889-b09f-43bb-8d2e-1dd635052075')
+WindowOpened             LONG
+!!> GUID('f5e7d064-3317-43bd-8c91-338462a4a15d')
+WindowInitialized        LONG
+!!> GUID('7d7cc0e4-6fec-4256-a904-9b9efed9d69e')
+ForceRefresh             LONG
+!!> GUID('c1bf78f5-e0a8-4331-9f47-6dedff71fa0a')
+[SCREENCONTROLS]
+! PROMPT('loc : Import Filename:'),USE(?loc:ImportFilename:Prompt)
+! ENTRY(@s255),USE(loc:ImportFilename),MSG('Import filename'),TIP('Import filename')
+[REPORTCONTROLS]
+! STRING(@s255),USE(loc:ImportFilename)
+loc:ImportFilename       CSTRING(256) !Import filename
+!!> GUID('7cda7774-4997-424f-a701-a49c57949f38'),PROMPT('loc : Import Filename:'),HEADER('loc : Import Filename'),MESSAGE('Import filename'),TOOLTIP('Import filename'),PICTURE(@s255),TYPEMODE(INS)
+[SCREENCONTROLS]
+! PROMPT('msg Q:'),USE(?msgQ:Prompt)
+! ENTRY(@s20),USE(msgQ),MSG('Queue of messages to send'),TIP('Queue of messages to send')
+[REPORTCONTROLS]
+! STRING(@s20),USE(msgQ)
+msgQ                     QUEUE,PRE(),NAME('ICS213') !Queue of messages to send
+!!> GUID('85ba514d-950a-47f0-bf1b-eff063c9d9ea'),PROMPT('msg Q:'),HEADER('msg Q'),MESSAGE('Queue of messages to send'),TOOLTIP('Queue of messages to send'),PICTURE(@s20),TYPEMODE(INS)
+[SCREENCONTROLS]
+! PROMPT('&To:'),USE(?Recipient:Prompt)
+! ENTRY(@s80),USE(Recipient),MSG('TO field of ICS-213 message'),TIP('TO field of ICS-213 message')
+[REPORTCONTROLS]
+! STRING(@s80),USE(Recipient)
+Recipient                  CSTRING(81),NAME('TO') !TO field of ICS-213 message
+!!> GUID('eaf712ca-0b3e-4e14-b606-9f09d088e2c6'),PROMPT('&To:'),HEADER('TO'),MESSAGE('TO field of ICS-213 message'),TOOLTIP('TO field of ICS-213 message'),PICTURE(@s80),TYPEMODE(INS)
+[SCREENCONTROLS]
+! PROMPT('&Position:'),USE(?RecipientPosition:Prompt)
+! ENTRY(@s80),USE(RecipientPosition),MSG('(to) POSITION fied of ICS-213 message'),TIP('(to) POSITION fied of ICS-213 message')
+[REPORTCONTROLS]
+! STRING(@s80),USE(RecipientPosition)
+RecipientPosition          CSTRING(81),NAME('TO_POS') !(to) POSITION fied of ICS-213 message
+!!> GUID('35e412ab-debf-459b-b412-c37497c52892'),PROMPT('&Position:'),HEADER('Position'),MESSAGE('(to) POSITION fied of ICS-213 message'),TOOLTIP('(to) POSITION fied of ICS-213 message'),PICTURE(@s80),TYPEMODE(INS)
+[SCREENCONTROLS]
+! PROMPT('&From:'),USE(?Sender:Prompt)
+! ENTRY(@s80),USE(Sender),MSG('FROM field on ICS-213 message'),TIP('FROM field on ICS-213 message')
+[REPORTCONTROLS]
+! STRING(@s80),USE(Sender)
+Sender                     CSTRING(81),NAME('FROM') !FROM field on ICS-213 message
+!!> GUID('316f710e-c014-423f-8dbd-782c1c8cff30'),PROMPT('&From:'),HEADER('From'),MESSAGE('FROM field on ICS-213 message'),TOOLTIP('FROM field on ICS-213 message'),PICTURE(@s80),TYPEMODE(INS)
+[SCREENCONTROLS]
+! PROMPT('&Position:'),USE(?SenderPosition:Prompt)
+! ENTRY(@s80),USE(SenderPosition),MSG('(from) POSITION field of ICS-213 message'),TIP('(from) POSITION field of ICS-213 message')
+[REPORTCONTROLS]
+! STRING(@s80),USE(SenderPosition)
+SenderPosition             CSTRING(81),NAME('FROM_POS') !(from) POSITION field of ICS-213 message
+!!> GUID('9c190a8c-5dd5-4f16-9b1d-9a73f9863012'),PROMPT('&Position:'),HEADER('Position'),MESSAGE('(from) POSITION field of ICS-213 message'),TOOLTIP('(from) POSITION field of ICS-213 message'),PICTURE(@s80),TYPEMODE(INS)
+[SCREENCONTROLS]
+! PROMPT('&Subject:'),USE(?MsgSubject:Prompt)
+! ENTRY(@s255),USE(MsgSubject),MSG('SUBJECT field of ICS-213 message'),TIP('SUBJECT field of ICS-213 message')
+[REPORTCONTROLS]
+! STRING(@s255),USE(MsgSubject)
+MsgSubject                 CSTRING(256),NAME('SUBJECT') !SUBJECT field of ICS-213 message
+!!> GUID('a56465da-88f4-4fce-8118-7012f22671a3'),PROMPT('&Subject:'),HEADER('Subject'),MESSAGE('SUBJECT field of ICS-213 message'),TOOLTIP('SUBJECT field of ICS-213 message'),PICTURE(@s255),TYPEMODE(INS)
+[SCREENCONTROLS]
+! PROMPT('&Date:'),USE(?MsgDate:Prompt)
+! ENTRY(@s80),USE(MsgDate),MSG('DATE field of ICS-213 message'),TIP('DATE field of ICS-213 message')
+[REPORTCONTROLS]
+! STRING(@s80),USE(MsgDate)
+MsgDate                    CSTRING(81),NAME('DATE') !DATE field of ICS-213 message
+!!> GUID('ab4807ba-d769-4374-8fb2-0294be8d19b5'),PROMPT('&Date:'),HEADER('Date'),MESSAGE('DATE field of ICS-213 message'),TOOLTIP('DATE field of ICS-213 message'),PICTURE(@s80),TYPEMODE(INS)
+[SCREENCONTROLS]
+! PROMPT('&Time:'),USE(?MsgTime:Prompt)
+! ENTRY(@s20),USE(MsgTime),MSG('TIME field of ICS-213 message'),TIP('TIME field of ICS-213 message')
+[REPORTCONTROLS]
+! STRING(@s20),USE(MsgTime)
+MsgTime                    CSTRING(21),NAME('TIME') !TIME field of ICS-213 message
+!!> GUID('a6d57d00-2260-4e4b-9cff-1c211556c176'),PROMPT('&Time:'),HEADER('Time'),MESSAGE('TIME field of ICS-213 message'),TOOLTIP('TIME field of ICS-213 message'),PICTURE(@s20),TYPEMODE(INS)
+[SCREENCONTROLS]
+! PROMPT('&Message:'),USE(?Msg:Prompt)
+! ENTRY(@s255),USE(Msg),MSG('MESSAGE field of ICS-213 message'),TIP('MESSAGE field of ICS-213 message')
+[REPORTCONTROLS]
+! STRING(@s255),USE(Msg)
+Msg                        CSTRING(512),NAME('MSG') !MESSAGE field of ICS-213 message
+!!> GUID('06266aa2-2798-4c45-808a-0492d7f0d3a4'),PROMPT('&Message:'),HEADER('Message'),MESSAGE('MESSAGE field of ICS-213 message'),TOOLTIP('MESSAGE field of ICS-213 message'),PICTURE(@s255),TYPEMODE(INS)
+[SCREENCONTROLS]
+! PROMPT('&Signature:'),USE(?Signature:Prompt)
+! ENTRY(@s80),USE(Signature),MSG('SIGNATURE field of ICS-213 message'),TIP('SIGNATURE field of ICS-213 message')
+[REPORTCONTROLS]
+! STRING(@s80),USE(Signature)
+Signature                  CSTRING(81),NAME('SIG') !SIGNATURE field of ICS-213 message
+!!> GUID('77b085f8-bf1a-4a85-9849-5cfe046a142a'),PROMPT('&Signature:'),HEADER('Signature'),MESSAGE('SIGNATURE field of ICS-213 message'),TOOLTIP('SIGNATURE field of ICS-213 message'),PICTURE(@s80),TYPEMODE(INS)
+[SCREENCONTROLS]
+! PROMPT('&Position:'),USE(?SignaturePosition:Prompt)
+! ENTRY(@s80),USE(SignaturePosition),MSG('(signature) POSITION field of ICS-213 message'),TIP('(signature) POSITION field of ICS-213 message')
+[REPORTCONTROLS]
+! STRING(@s80),USE(SignaturePosition)
+SignaturePosition          CSTRING(81),NAME('SIG_POS') !(signature) POSITION field of ICS-213 message
+!!> GUID('3ad87425-d96f-464a-836e-b393df975782'),PROMPT('&Position:'),HEADER('Position'),MESSAGE('(signature) POSITION field of ICS-213 message'),TOOLTIP('(signature) POSITION field of ICS-213 message'),PICTURE(@s80),TYPEMODE(INS)
+[SCREENCONTROLS]
+! PROMPT('Message &ID:'),USE(?MsgID:Prompt)
+! ENTRY(@s20),USE(MsgID),MSG('Optional arbitrary message identifier'),TIP('Optional arbitrary message identifier')
+[REPORTCONTROLS]
+! STRING(@s20),USE(MsgID)
+MsgID                      CSTRING(21),NAME('MSGID') !Optional arbitrary message identifier
+!!> GUID('c02c7566-f1af-4192-83dc-33d256f06665'),PROMPT('Message &ID:'),HEADER('Message ID'),MESSAGE('Optional arbitrary message identifier'),TOOLTIP('Optional arbitrary message identifier'),PICTURE(@s20),TYPEMODE(INS)
+[SCREENCONTROLS]
+! CHECK('&Exercise'),USE(useExercise),MSG('Check this option to declare this message as "exercise traffic"'),VALUE('1','0'),TIP('Check this option to declare this message as "exercise traffic"')
+[REPORTCONTROLS]
+! CHECK('&Exercise'),USE(useExercise),VALUE('1','0')
+useExercise                BYTE,NAME('EXERCISE') !Check this option to declare this message as "exercise traffic"
+!!> GUID('9300791d-4c42-416b-9c29-8d6bd71d6c54'),VALID(BOOLEAN),PROMPT('&Exercise'),HEADER('Exercise'),MESSAGE('Check this option to declare this message as "exercise traffic"'),TOOLTIP('Check this option to declare this message as "exercise traffic"'),PICTURE(@n3),TYPEMODE(INS),TRUEVALUE('1'),FALSEVALUE('0')
+[SCREENCONTROLS]
+! PROMPT('RE Message ID:'),USE(?REMsgI:Prompt)
+! ENTRY(@s20),USE(REMsgI),MSG('ID of message being replied to'),TIP('ID of message being replied to')
+[REPORTCONTROLS]
+! STRING(@s20),USE(REMsgI)
+REMsgID                    CSTRING(21),NAME('RE_MSGID') !ID of message being replied to
+!!> GUID('3768acaa-4c7d-4ffb-8a83-3ed142da1138'),PROMPT('RE Message ID:'),HEADER('RE Message ID'),MESSAGE('ID of message being replied to'),TOOLTIP('ID of message being replied to'),PICTURE(@s20),TYPEMODE(INS)
+                         END
+!!> GUID('486beac3-b8a0-414b-a9c4-faae20b41d93')
+[SCREENCONTROLS]
+! PROMPT('JSON 213:'),USE(?JSON_213:Prompt)
+! TEXT,USE(JSON_213),MSG('JSON string representation of ICS-213 form.'),TIP('JSON string representation of ICS-213 form.')
+[REPORTCONTROLS]
+! STRING(@s255),USE(JSON_213)
+JSON_213                 CSTRING(6000) !JSON string representation of ICS-213 form.
+!!> GUID('32d073eb-447b-4fbc-9df8-cc59460fb86e'),PROMPT('JSON 213:'),HEADER('JSON 213'),MESSAGE('JSON string representation of ICS-213 form.'),TOOLTIP('JSON string representation of ICS-213 form.'),PICTURE(@s255),TYPEMODE(INS)
+[SCREENCONTROLS]
+! PROMPT('ICS 213 Values:'),USE(?ICS213Values:Prompt)
+! ENTRY(@s20),USE(ICS213Values),MSG('Value pair object for ICS213'),TIP('Value pair object for ICS213')
+[REPORTCONTROLS]
+! STRING(@s20),USE(ICS213Values)
+ICS213Values             tprValuePair !Value pair object for ICS213
+!!> GUID('6b33c8ff-dbf5-4d5d-aacf-f40fd50e80bf'),PROMPT('ICS 213 Values:'),HEADER('ICS 213 Values'),MESSAGE('Value pair object for ICS213'),TOOLTIP('Value pair object for ICS213'),PICTURE(@s20),TYPEMODE(INS)
+[SCREENCONTROLS]
+! PROMPT('ICS 213:'),USE(?ICS213:Prompt)
+! ENTRY(@s20),USE(ICS213),MSG('ICS-213 field group'),TIP('ICS-213 field group')
+[REPORTCONTROLS]
+! STRING(@s20),USE(ICS213)
+ICS213                   GROUP,PRE() !ICS-213 field group
+!!> GUID('2266f552-f665-462c-8945-d4363016a4bf'),PROMPT('ICS 213:'),HEADER('ICS 213'),MESSAGE('ICS-213 field group'),TOOLTIP('ICS-213 field group'),PICTURE(@s20),TYPEMODE(INS)
+[SCREENCONTROLS]
+! PROMPT('To:'),USE(?To_213:Prompt)
+! ENTRY(@s80),USE(To_213),MSG('Required TO field on ICS-213 form'),TIP('Required TO field on ICS-213 form'),REQ
+[REPORTCONTROLS]
+! STRING(@s80),USE(To_213)
+To_213                     CSTRING(81),NAME('TO') !Required TO field on ICS-213 form
+!!> GUID('45f25f34-179c-463e-b1cb-0908e25c7a0b'),VALID(NONZERO),PROMPT('To:'),HEADER('To'),MESSAGE('Required TO field on ICS-213 form'),TOOLTIP('Required TO field on ICS-213 form'),PICTURE(@s80),TYPEMODE(INS)
+[SCREENCONTROLS]
+! PROMPT('(to) Position:'),USE(?ToPos_213:Prompt)
+! ENTRY(@s80),USE(ToPos_213),MSG('Required (to) POSITION field on ICS-213 form.'),TIP('Required (to) POSITION field on ICS-213 form.'),REQ
+[REPORTCONTROLS]
+! STRING(@s80),USE(ToPos_213)
+ToPos_213                  CSTRING(81),NAME('TO_POS') !Required (to) POSITION field on ICS-213 form.
+!!> GUID('32c42f93-fb78-43c6-b512-f53a01f2d757'),VALID(NONZERO),PROMPT('(to) Position:'),HEADER('(to) Position'),MESSAGE('Required (to) POSITION field on ICS-213 form.'),TOOLTIP('Required (to) POSITION field on ICS-213 form.'),PICTURE(@s80),TYPEMODE(INS)
+[SCREENCONTROLS]
+! PROMPT('From:'),USE(?From_213:Prompt)
+! ENTRY(@s80),USE(From_213),MSG('Required FROM field on ICS-213 form.'),TIP('Required FROM field on ICS-213 form.'),REQ
+[REPORTCONTROLS]
+! STRING(@s80),USE(From_213)
+From_213                   CSTRING(81),NAME('FROM') !Required FROM field on ICS-213 form.
+!!> GUID('e0757236-7936-4001-8645-ad27f3e3eec9'),VALID(NONZERO),PROMPT('From:'),HEADER('From'),MESSAGE('Required FROM field on ICS-213 form.'),TOOLTIP('Required FROM field on ICS-213 form.'),PICTURE(@s80),TYPEMODE(INS)
+[SCREENCONTROLS]
+! PROMPT('(from) Position:'),USE(?FromPos_213:Prompt)
+! ENTRY(@s80),USE(FromPos_213),MSG('Required (from) POSITION field on ICS-213 form.'),TIP('Required (from) POSITION field on ICS-213 form.'),REQ
+[REPORTCONTROLS]
+! STRING(@s80),USE(FromPos_213)
+FromPos_213                CSTRING(81),NAME('FROM_POS') !Required (from) POSITION field on ICS-213 form.
+!!> GUID('99e353df-4d3c-4293-b923-8d8c4dc6ec20'),VALID(NONZERO),PROMPT('(from) Position:'),HEADER('(from) Position'),MESSAGE('Required (from) POSITION field on ICS-213 form.'),TOOLTIP('Required (from) POSITION field on ICS-213 form.'),PICTURE(@s80),TYPEMODE(INS)
+[SCREENCONTROLS]
+! PROMPT('Subject:'),USE(?Subject_213:Prompt)
+! ENTRY(@s127),USE(Subject_213),MSG('Required SUBJECT field on ICS-213 form.'),TIP('Required SUBJECT field on ICS-213 form.'),REQ
+[REPORTCONTROLS]
+! STRING(@s127),USE(Subject_213)
+Subject_213                CSTRING(128),NAME('SUBJECT') !Required SUBJECT field on ICS-213 form.
+!!> GUID('3e6c0dd8-b62d-42ca-8d11-5e210271e414'),VALID(NONZERO),PROMPT('Subject:'),HEADER('Subject'),MESSAGE('Required SUBJECT field on ICS-213 form.'),TOOLTIP('Required SUBJECT field on ICS-213 form.'),PICTURE(@s127),TYPEMODE(INS)
+[SCREENCONTROLS]
+! PROMPT('Date:'),USE(?Date_213:Prompt)
+! ENTRY(@s20),USE(Date_213),MSG('Required DATE field of ICS-213 form.'),TIP('Required DATE field of ICS-213 form.'),REQ
+[REPORTCONTROLS]
+! STRING(@s20),USE(Date_213)
+Date_213                   CSTRING(21),NAME('DATE') !Required DATE field of ICS-213 form.
+!!> GUID('dee317d2-6d4c-4b6d-a75f-faa01aede00d'),VALID(NONZERO),PROMPT('Date:'),HEADER('Date'),MESSAGE('Required DATE field of ICS-213 form.'),TOOLTIP('Required DATE field of ICS-213 form.'),PICTURE(@s20),TYPEMODE(INS)
+[SCREENCONTROLS]
+! PROMPT('Time:'),USE(?Time_213:Prompt)
+! ENTRY(@s20),USE(Time_213),MSG('Required TIME field on ICS-213 form.'),TIP('Required TIME field on ICS-213 form.')
+[REPORTCONTROLS]
+! STRING(@s20),USE(Time_213)
+Time_213                   CSTRING(21),NAME('TIME') !Required TIME field on ICS-213 form.
+!!> GUID('9f0babd9-1a3c-4730-858f-1fa7ec7df152'),PROMPT('Time:'),HEADER('Time'),MESSAGE('Required TIME field on ICS-213 form.'),TOOLTIP('Required TIME field on ICS-213 form.'),PICTURE(@s20),TYPEMODE(INS)
+[SCREENCONTROLS]
+! PROMPT('Message:'),USE(?Message_213:Prompt)
+! TEXT,USE(Message_213),MSG('Required MESSAGE field on ICS-213 form.'),TIP('Required MESSAGE field on ICS-213 form.'),REQ
+[REPORTCONTROLS]
+! STRING(@s255),USE(Message_213)
+Message_213                CSTRING(5000),NAME('MSG') !Required MESSAGE field on ICS-213 form.
+!!> GUID('6cf1b776-b068-45b9-8a64-7647cbac1593'),VALID(NONZERO),PROMPT('Message:'),HEADER('Message'),MESSAGE('Required MESSAGE field on ICS-213 form.'),TOOLTIP('Required MESSAGE field on ICS-213 form.'),PICTURE(@s255),TYPEMODE(INS)
+[SCREENCONTROLS]
+! PROMPT('Signature:'),USE(?Signature_213:Prompt)
+! ENTRY(@s80),USE(Signature_213),MSG('Required SIGNATURE field on ICS-213 form.'),TIP('Required SIGNATURE field on ICS-213 form.'),REQ
+[REPORTCONTROLS]
+! STRING(@s80),USE(Signature_213)
+Signature_213              CSTRING(81),NAME('SIG') !Required SIGNATURE field on ICS-213 form.
+!!> GUID('9432ada4-ec4e-490b-b5ed-e24dd78bfd66'),VALID(NONZERO),PROMPT('Signature:'),HEADER('Signature'),MESSAGE('Required SIGNATURE field on ICS-213 form.'),TOOLTIP('Required SIGNATURE field on ICS-213 form.'),PICTURE(@s80),TYPEMODE(INS)
+[SCREENCONTROLS]
+! PROMPT('(signature) Position:'),USE(?SignaturePos_213:Prompt)
+! ENTRY(@s80),USE(SignaturePos_213),MSG('Required (signature) POSITION field on ICS-213 form.'),TIP('Required (signature) POSITION field on ICS-213 form.'),REQ
+[REPORTCONTROLS]
+! STRING(@s80),USE(SignaturePos_213)
+SignaturePos_213           CSTRING(81),NAME('SIG_POS') !Required (signature) POSITION field on ICS-213 form.
+!!> GUID('ac26c5dd-2dc9-4573-a96f-c54fefca8d5d'),VALID(NONZERO),PROMPT('(signature) Position:'),HEADER('(signature) Position'),MESSAGE('Required (signature) POSITION field on ICS-213 form.'),TOOLTIP('Required (signature) POSITION field on ICS-213 form.'),PICTURE(@s80),TYPEMODE(INS)
+[SCREENCONTROLS]
+! PROMPT('Message ID:'),USE(?MessageID_213:Prompt)
+! ENTRY(@s20),USE(MessageID_213),MSG('Optional message ID'),TIP('Optional message ID')
+[REPORTCONTROLS]
+! STRING(@s20),USE(MessageID_213)
+MessageID_213              CSTRING(21),NAME('MSGID') !Optional message ID
+!!> GUID('3e36d726-f051-418e-8063-83c2bd98772a'),PROMPT('Message ID:'),HEADER('Message ID'),MESSAGE('Optional message ID'),TOOLTIP('Optional message ID'),PICTURE(@s20),TYPEMODE(INS)
+[SCREENCONTROLS]
+! CHECK('Exercise'),USE(isExercise_213),MSG('A 1 (true) value indicates that this message is exercise traffic only.'),VALUE('1','0'),TIP('A 1 (true) value indicates that this message is exercise traffic only.')
+[REPORTCONTROLS]
+! CHECK('Exercise'),USE(isExercise_213),VALUE('1','0')
+isExercise_213             BYTE,NAME('EXERCISE') !A 1 (true) value indicates that this message is exercise traffic only.
+!!> GUID('c1e484aa-c67d-414a-af45-cf4ed1f82b52'),VALID(BOOLEAN),PROMPT('Exercise'),HEADER('Exercise'),MESSAGE('A 1 (true) value indicates that this message is exercise traffic only.'),TOOLTIP('A 1 (true) value indicates that this message is exercise traffic only.'),PICTURE(@n3),TYPEMODE(INS),TRUEVALUE('1'),FALSEVALUE('0')
+[SCREENCONTROLS]
+! PROMPT('RE:'),USE(?REMessageID_213:Prompt)
+! ENTRY(@s80),USE(REMessageID_213),MSG('This field contains the message ID this message is in reply to.'),TIP('This field contains the message ID this message is in reply to.')
+[REPORTCONTROLS]
+! STRING(@s80),USE(REMessageID_213)
+REMessageID_213            CSTRING(81),NAME('RE_MSGID') !This field contains the message ID this message is in reply to.
+!!> GUID('5a966209-f223-4cc7-af87-7bcae1bd16b5'),PROMPT('RE:'),HEADER('RE'),MESSAGE('This field contains the message ID this message is in reply to.'),TOOLTIP('This field contains the message ID this message is in reply to.'),PICTURE(@s80),TYPEMODE(INS)
+                         END
+!!> GUID('91b6aee3-9261-4979-9987-a5f87f4128e0')
+DOSDialogHeader          CSTRING(40)
+!!> GUID('567a9ec7-c2c4-4ddd-801c-b2aba6619cdf')
+DOSExtParameter          CSTRING(250)
+!!> GUID('7c902844-0a2e-4ad6-971d-d5be826453e9')
+DOSTargetVariable        CSTRING(256)
+!!> GUID('65434a62-18e1-433b-bd8e-b3247a004419')
+[PROMPTS]
+%Parameters DEFAULT  ('')
+%ReturnValue FIELD  ()
+%WindowOperationMode DEFAULT  ('Use WINDOW setting')
+%INISaveWindow LONG  (1)
+%ProcedureDisableEnhanceFocus LONG  (0)
+%ProcedureUseEnterInsteadTabOverride LONG  (0)
+%WindowUseEnterInsteadTab LONG  (1)
+%ProcedureUseEnterInsteadTabExcludeListCombo LONG  (0)
+%ProcedureUseEnterInsteadTabEnableNextTabStop LONG  (0)
+%ProcedureUseEnterInsteadTabExcludeG LONG  (1)
+%WindowUseEnterInsteadTabExclude MULTI DEFAULT  ()
+%WindowStyles MULTI LONG  ()
+%WindowStyleFontName DEPEND %WindowStyles DEFAULT TIMES 0
+
+%WindowStyleFontNameVariable DEPEND %WindowStyles DEFAULT TIMES 0
+
+%WindowStyleFontNameIsVariable DEPEND %WindowStyles LONG TIMES 0
+
+%WindowStyleFontSize DEPEND %WindowStyles DEFAULT TIMES 0
+
+%WindowStyleFontSizeVariable DEPEND %WindowStyles DEFAULT TIMES 0
+
+%WindowStyleFontSizeIsVariable DEPEND %WindowStyles LONG TIMES 0
+
+%WindowStyleFontStyle DEPEND %WindowStyles DEFAULT TIMES 0
+
+%WindowStyleFontStyleVariable DEPEND %WindowStyles DEFAULT TIMES 0
+
+%WindowStyleFontStyleIsVariable DEPEND %WindowStyles LONG TIMES 0
+
+%WindowStyleFontColor DEPEND %WindowStyles DEFAULT TIMES 0
+
+%WindowStyleFontCharSet DEPEND %WindowStyles DEFAULT TIMES 0
+
+%WindowStyleForegroundNormal DEPEND %WindowStyles LONG TIMES 0
+
+%WindowStyleForegroundNormalVariable DEPEND %WindowStyles DEFAULT TIMES 0
+
+%WindowStyleForegroundNormalIsVariable DEPEND %WindowStyles LONG TIMES 0
+
+%WindowStyleBackgroundNormal DEPEND %WindowStyles LONG TIMES 0
+
+%WindowStyleBackgroundNormalVariable DEPEND %WindowStyles DEFAULT TIMES 0
+
+%WindowStyleBackgroundNormalIsVariable DEPEND %WindowStyles LONG TIMES 0
+
+%WindowStyleForegroundSelected DEPEND %WindowStyles LONG TIMES 0
+
+%WindowStyleForegroundSelectedVariable DEPEND %WindowStyles DEFAULT TIMES 0
+
+%WindowStyleForegroundSelectedIsVariable DEPEND %WindowStyles LONG TIMES 0
+
+%WindowStyleBackgroundSelected DEPEND %WindowStyles LONG TIMES 0
+
+%WindowStyleBackgroundSelectedVariable DEPEND %WindowStyles DEFAULT TIMES 0
+
+%WindowStyleBackgroundSelectedIsVariable DEPEND %WindowStyles LONG TIMES 0
+
+%WindowStylePicture DEPEND %WindowStyles DEFAULT TIMES 0
+
+%WindowStylePictureVariable DEPEND %WindowStyles DEFAULT TIMES 0
+
+%WindowStylePictureIsVariable DEPEND %WindowStyles LONG TIMES 0
+
+%WindowStyleOtherListboxes MULTI DEFAULT  ()
+%ProcedureAutoBindFields MULTI LONG  ()
+%ProcedureAutoBindField DEPEND %ProcedureAutoBindFields DEFAULT TIMES 0
+
+%ProcedureAutoBindFieldTPL DEPEND %ProcedureAutoBindFields DEFAULT TIMES 0
+
+%ProcedureAutoBindProcedures MULTI LONG  ()
+%ProcedureAutoBindProcedure DEPEND %ProcedureAutoBindProcedures DEFAULT TIMES 0
+
+%ProcedureAutoBindProcedureTPL DEPEND %ProcedureAutoBindProcedures DEFAULT TIMES 0
+
+%ProcedureAutoBindFieldsIgnored MULTI LONG  ()
+%ProcedureAutoBindFieldIgnored DEPEND %ProcedureAutoBindFieldsIgnored DEFAULT TIMES 0
+
+%ProcedureAutoBindProceduresIgnored MULTI LONG  ()
+%ProcedureAutoBindProcedureIgnored DEPEND %ProcedureAutoBindProceduresIgnored DEFAULT TIMES 0
+
+%ProcedureAutoBindValidToAddField LONG  (1)
+%ProcedureUserBindFields MULTI LONG  ()
+%ProcedureUserBindField DEPEND %ProcedureUserBindFields FIELD TIMES 0
+
+%ProcedureAutoBindFieldIgnore DEPEND %ProcedureAutoBindFields LONG TIMES 0
+
+%ProcedureUserBindProcedures MULTI LONG  ()
+%ProcedureUserBindProcedure DEPEND %ProcedureUserBindProcedures PROCEDURE TIMES 0
+
+%ProcedureAutoBindProcedureIgnore DEPEND %ProcedureAutoBindProcedures LONG TIMES 0
+
+%ProcedureUserBindExpressions MULTI LONG  ()
+%ProcedureUserBindExpressionName DEPEND %ProcedureUserBindExpressions DEFAULT TIMES 0
+
+%ProcedureUserBindExpression DEPEND %ProcedureUserBindExpressions DEFAULT TIMES 0
+
+%ButtonAction DEPEND %Control DEFAULT TIMES 8
+WHEN  ('') ('No Special Action')
+WHEN  ('?About:Button') ('Call a Procedure')
+WHEN  ('?Close:Button') ('No Special Action')
+WHEN  ('?ICS213Print:Button') ('Call a Procedure')
+WHEN  ('?JSON_213') ('No Special Action')
+WHEN  ('?Open:File') ('No Special Action')
+WHEN  ('?To213:Button') ('No Special Action')
+WHEN  ('?ToJSON:Button') ('No Special Action')
+
+%ButtonRunName DEPEND %Control DEFAULT TIMES 3
+WHEN  ('?About:Button') ('')
+WHEN  ('?ICS213Print:Button') ('')
+WHEN  ('?Open:File') ('')
+
+%ButtonRunParameters DEPEND %Control DEFAULT TIMES 3
+WHEN  ('?About:Button') ('')
+WHEN  ('?ICS213Print:Button') ('')
+WHEN  ('?Open:File') ('')
+
+%ButtonProcedure DEPEND %Control PROCEDURE TIMES 3
+WHEN  ('?About:Button') (AboutHam213)
+WHEN  ('?ICS213Print:Button') (ReportICS213)
+WHEN  ('?Open:File') ()
+
+%ButtonThread DEPEND %Control LONG TIMES 3
+WHEN  ('?About:Button') (0)
+WHEN  ('?ICS213Print:Button') (0)
+WHEN  ('?Open:File') (0)
+
+%ButtonThreadStack DEPEND %Control DEFAULT TIMES 8
+WHEN  ('') ('25000')
+WHEN  ('?About:Button') ('25000')
+WHEN  ('?Close:Button') ('25000')
+WHEN  ('?ICS213Print:Button') ('25000')
+WHEN  ('?JSON_213') ('25000')
+WHEN  ('?Open:File') ('25000')
+WHEN  ('?To213:Button') ('25000')
+WHEN  ('?ToJSON:Button') ('25000')
+
+%ButtonParameters DEPEND %Control DEFAULT TIMES 3
+WHEN  ('?About:Button') ('')
+WHEN  ('?ICS213Print:Button') ('ICS213Values')
+WHEN  ('?Open:File') ('')
+
+%ButtonReturnValueAssignment DEPEND %Control FIELD TIMES 3
+WHEN  ('?About:Button') ()
+WHEN  ('?ICS213Print:Button') ()
+WHEN  ('?Open:File') ()
+
+%ButtonReturnValueReferenceAssign DEPEND %Control LONG TIMES 3
+WHEN  ('?About:Button') (0)
+WHEN  ('?ICS213Print:Button') (0)
+WHEN  ('?Open:File') (0)
+
+%ButtonRequest DEPEND %Control DEFAULT TIMES 8
+WHEN  ('') ('None')
+WHEN  ('?About:Button') ('None')
+WHEN  ('?Close:Button') ('None')
+WHEN  ('?ICS213Print:Button') ('None')
+WHEN  ('?JSON_213') ('None')
+WHEN  ('?Open:File') ('None')
+WHEN  ('?To213:Button') ('None')
+WHEN  ('?ToJSON:Button') ('None')
+
+%ButtonThreadParameters DEPEND %Control DEFAULT TIMES 3
+WHEN  ('?About:Button') ('')
+WHEN  ('?ICS213Print:Button') ('')
+WHEN  ('?Open:File') ('')
+
+%ButtonThreadReturnValueAssignment DEPEND %Control FIELD TIMES 3
+WHEN  ('?About:Button') ()
+WHEN  ('?ICS213Print:Button') ()
+WHEN  ('?Open:File') ()
+
+%PreLookupKey DEPEND %Control KEY TIMES 0
+
+%PreLookupField DEPEND %Control COMPONENT TIMES 0
+
+%PreLookupProcedure DEPEND %Control PROCEDURE TIMES 0
+
+%PreLookupProcedureParameters DEPEND %Control DEFAULT TIMES 0
+
+%PostLookupKey DEPEND %Control KEY TIMES 0
+
+%PostLookupField DEPEND %Control COMPONENT TIMES 0
+
+%PostLookupProcedure DEPEND %Control PROCEDURE TIMES 0
+
+%PostLookupProcedureParameters DEPEND %Control DEFAULT TIMES 0
+
+%PostLookupDuringValidate DEPEND %Control LONG TIMES 15
+WHEN  ('') (1)
+WHEN  ('?About:Button') (1)
+WHEN  ('?Date_213') (1)
+WHEN  ('?FromPos_213') (1)
+WHEN  ('?From_213') (1)
+WHEN  ('?ICS213Print:Button') (1)
+WHEN  ('?JSON_213') (1)
+WHEN  ('?MessageID_213') (1)
+WHEN  ('?Open:File') (1)
+WHEN  ('?SignaturePos_213') (1)
+WHEN  ('?Signature_213') (1)
+WHEN  ('?Subject_213') (1)
+WHEN  ('?Time_213') (1)
+WHEN  ('?ToPos_213') (1)
+WHEN  ('?To_213') (1)
+
+%LookupAssign DEPEND %Control MULTI LONG TIMES 0
+
+%MoreTarget DEPEND %LookupAssign FIELD TIMES 0
+
+%MoreField DEPEND %LookupAssign DEFAULT TIMES 0
+
+%ForceWindowRefresh DEPEND %Control LONG TIMES 0
+
+%CheckedAssigns DEPEND %Control MULTI LONG TIMES 0
+
+%CheckedAssignVariable DEPEND %CheckedAssigns FIELD TIMES 0
+
+%CheckedAssignValue DEPEND %CheckedAssigns DEFAULT TIMES 0
+
+%CheckedHides DEPEND %Control MULTI LONG TIMES 0
+
+%CheckedControl DEPEND %CheckedHides DEFAULT TIMES 0
+
+%CheckedControlAction DEPEND %CheckedHides DEFAULT TIMES 5
+WHEN  ('')TIMES 0
+WHEN  ('?About:Button')TIMES 0
+WHEN  ('?ICS213Print:Button')TIMES 0
+WHEN  ('?JSON_213')TIMES 0
+WHEN  ('?Open:File')TIMES 0
+
+%CheckedDisables DEPEND %Control MULTI LONG TIMES 0
+
+%CheckedDisableControl DEPEND %CheckedDisables DEFAULT TIMES 0
+
+%CheckedDisableControlAction DEPEND %CheckedDisables DEFAULT TIMES 5
+WHEN  ('')TIMES 0
+WHEN  ('?About:Button')TIMES 0
+WHEN  ('?ICS213Print:Button')TIMES 0
+WHEN  ('?JSON_213')TIMES 0
+WHEN  ('?Open:File')TIMES 0
+
+%UncheckedAssigns DEPEND %Control MULTI LONG TIMES 0
+
+%UncheckedAssignVariable DEPEND %UncheckedAssigns FIELD TIMES 0
+
+%UncheckedAssignValue DEPEND %UncheckedAssigns DEFAULT TIMES 0
+
+%UnCheckedHides DEPEND %Control MULTI LONG TIMES 0
+
+%UnCheckedControl DEPEND %UnCheckedHides DEFAULT TIMES 0
+
+%UnCheckedControlAction DEPEND %UnCheckedHides DEFAULT TIMES 5
+WHEN  ('')TIMES 0
+WHEN  ('?About:Button')TIMES 0
+WHEN  ('?ICS213Print:Button')TIMES 0
+WHEN  ('?JSON_213')TIMES 0
+WHEN  ('?Open:File')TIMES 0
+
+%UnCheckedDisables DEPEND %Control MULTI LONG TIMES 0
+
+%UnCheckedDisableControl DEPEND %UnCheckedDisables DEFAULT TIMES 0
+
+%UnCheckedDisableControlAction DEPEND %UnCheckedDisables DEFAULT TIMES 5
+WHEN  ('')TIMES 0
+WHEN  ('?About:Button')TIMES 0
+WHEN  ('?ICS213Print:Button')TIMES 0
+WHEN  ('?JSON_213')TIMES 0
+WHEN  ('?Open:File')TIMES 0
+
+%ExtUITabIcon DEPEND %Control DEFAULT TIMES 0
+
+%ExtUITabStyleOverrideGlobal DEPEND %Control LONG TIMES 0
+
+%ExtUITabStyle DEPEND %Control DEFAULT TIMES 5
+WHEN  ('') ('Default')
+WHEN  ('?About:Button') ('Default')
+WHEN  ('?ICS213Print:Button') ('Default')
+WHEN  ('?JSON_213') ('Default')
+WHEN  ('?Open:File') ('Default')
+
+[EMBED]
+EMBED %AfterFileOpen
+[DEFINITION]
+[SOURCE]
+PROPERTY:BEGIN
+PRIORITY 5000
+PROPERTY:END
+!! Set default values
+ICS213.Date_213 = FORMAT(TODAY(), @d17b)
+ICS213.Time_213 = FORMAT(CLOCK(), @t7b)
+[END]
+EMBED %ControlPreEventHandling
+[INSTANCES]
+WHEN '?ToJSON:Button'
+[INSTANCES]
+WHEN 'Accepted'
+[DEFINITION]
+[SOURCE]
+PROPERTY:BEGIN
+PRIORITY 5000
+PROPERTY:END
+DO ICS213:ToJSON
+[END]
+[END]
+WHEN '?To213:Button'
+[INSTANCES]
+WHEN 'Accepted'
+[DEFINITION]
+[SOURCE]
+PROPERTY:BEGIN
+PRIORITY 5000
+PROPERTY:END
+!! Convert JSON string to ICS-213
+CLEAR(ICS213.Date_213)
+CLEAR(ICS213.From_213)
+CLEAR(ICS213.FromPos_213)
+CLEAR(ICS213.isExercise_213)
+CLEAR(ICS213.Message_213)
+CLEAR(ICS213.MessageID_213)
+CLEAR(ICS213.REMessageID_213)
+CLEAR(ICS213.Signature_213)
+CLEAR(ICS213.SignaturePos_213)
+CLEAR(ICS213.Subject_213)
+CLEAR(ICS213.Time_213)
+CLEAR(ICS213.To_213)
+CLEAR(ICS213.ToPos_213)
+DO JSON:ToICS213
+[END]
+[END]
+WHEN '?ICS213Print:Button'
+[INSTANCES]
+WHEN 'Accepted'
+[DEFINITION]
+[SOURCE]
+PROPERTY:BEGIN
+PRIORITY 5000
+PROPERTY:END
+DO ICS213:PutValues
+[END]
+[END]
+[END]
+EMBED %ProcedureRoutines
+[DEFINITION]
+[SOURCE]
+PROPERTY:BEGIN
+PRIORITY 4000
+PROPERTY:END
+ICS213:ToJSON       ROUTINE
+!|
+!|  Converts the fields entered on our ICS-213 to a properly formatted JSON string
+!|
+  DATA
+curOut      tprDBjson
+  CODE
+  curOut.PushChild('ICS213')
+  curOut.AddValueBoolean('EXERCISE', ICS213.isExercise_213)
+  IF CLIP(ICS213.MessageID_213) <> ''
+    curOut.AddValueHTML('MSGID', ICS213.MessageID_213)
+  END
+  curOut.AddValueHTML('TO',         ICS213.To_213)
+  curOut.AddValueHTML('TO_POS',     ICS213.ToPos_213)
+  curOut.AddValueHTML('FROM',       ICS213.From_213)
+  curOut.AddValueHTML('FROM_POS',   ICS213.FromPos_213)
+  curOut.AddValueHTML('SUBJECT',    ICS213.Subject_213)
+  curOut.AddValueHTML('DATE',       ICS213.Date_213)
+  curOut.AddValueHTML('TIME',       ICS213.Time_213)
+  curOut.AddValueHTML('MSG',        ICS213.Message_213)
+  curOut.AddValueHTML('SIG',        ICS213.Signature_213)
+  curOut.AddValueHTML('SIG_POS',    ICS213.SignaturePos_213)
+  curOut.PopChild()
+  JSON_213 = curOut.Get('')
+  SETCLIPBOARD(JSON_213)
+
+  EXIT
+[SOURCE]
+PROPERTY:BEGIN
+PRIORITY 4000
+PROPERTY:END
+JSON:ToICS213       ROUTINE
+!|
+!|  Converts the a properly formatted JSON string to an ICS-213 form
+!|
+  DATA
+curICS213     tprJsonReturn
+curIn         tprJsonReturn
+curInstance   LONG(0)
+  CODE
+  curICS213.Parse(JSON_213)
+  !! LOOP here to handle multiple ICS forms (ICS-213, ICS-214, etc.)
+  IF curICS213.ForEach(curInstance) THEN .
+  
+  curInstance = 0
+  curIn.Parse(curICS213.GetValue('ICS213'))
+  !! LOOP here to handle multiple ICS-213 messages
+  IF curIn.ForEach(curInstance) THEN .  
+  ICS213.MessageID_213    = curIn.GetValue('MSGID')
+  ICS213.isExercise_213   = curIn.GetValueBoolean('EXERCISE')
+  ICS213.REMessageID_213  = curIn.GetValue('RE_MSGID')
+  ICS213.To_213           = curIn.GetValue('TO')
+  ICS213.ToPos_213        = curIn.GetValue('TO_POS')
+  ICS213.From_213         = curIn.GetValue('FROM')
+  ICS213.FromPos_213      = curIn.GetValue('FROM_POS')
+  ICS213.Subject_213      = curIn.GetValue('SUBJECT')
+  ICS213.Date_213         = curIn.GetValue('DATE')
+  ICS213.Time_213         = curIn.GetValue('TIME')
+  ICS213.Message_213      = curIn.GetValue('MSG')
+  ICS213.Signature_213    = curIn.GetValue('SIG')
+  ICS213.SignaturePos_213 = curIn.GetValue('SIG_POS')
+  EXIT
+[SOURCE]
+PROPERTY:BEGIN
+PRIORITY 4000
+PROPERTY:END
+ICS213:PutValues ROUTINE
+!|
+!| Put ICS-213 values into the ICS213Values object
+!|
+  ICS213Values.AddValue('TO',         ICS213.To_213)
+  ICS213Values.AddValue('TO_POS',     ICS213.ToPos_213)
+  ICS213Values.AddValue('FROM',       ICS213.From_213)
+  ICS213Values.AddValue('FROM_POS',   ICS213.FromPos_213)
+  ICS213Values.AddValue('SUBJECT',    ICS213.Subject_213)
+  ICS213Values.AddValue('DATE',       ICS213.Date_213)
+  ICS213Values.AddValue('TIME',       ICS213.Time_213)
+  ICS213Values.AddValue('MSG',        ICS213.Message_213)
+  ICS213Values.AddValue('SIG',        ICS213.Signature_213)
+  ICS213Values.AddValue('SIG_POS',    ICS213.SignaturePos_213)
+  EXIT
+!----------------------------------------------------------------------
+
+[END]
+EMBED %ControlPostEventHandling
+[INSTANCES]
+WHEN '?ToJSON:Button'
+[INSTANCES]
+WHEN 'Accepted'
+[DEFINITION]
+[SOURCE]
+PROPERTY:BEGIN
+PRIORITY 5000
+PROPERTY:END
+DO RefreshWindow
+[END]
+[END]
+WHEN '?To213:Button'
+[INSTANCES]
+WHEN 'Accepted'
+[DEFINITION]
+[SOURCE]
+PROPERTY:BEGIN
+PRIORITY 5000
+PROPERTY:END
+DO RefreshWindow
+[END]
+[END]
+[END]
+[END]
+[ADDITION]
+NAME Clarion CloseButton
+[INSTANCE]
+INSTANCE 1
+[ADDITION]
+NAME Clarion DOSFileLookup
+[INSTANCE]
+INSTANCE 2
+[PROMPTS]
+%DOSFileDialogHeader DEFAULT  ('Choose a File')
+%DOSFileField FIELD  (loc:ImportFilename)
+%DOSInitialDirectory DEFAULT  ('')
+%ReturnToOriginalDir LONG  (0)
+%AllowLongFilenames LONG  (1)
+%DOSFileDialogType DEFAULT  ('Open')
+%AllowNoError LONG  (0)
+%AllowMultiSelect LONG  (0)
+%DOSVariableMask LONG  (0)
+%DOSVariableMaskValue FIELD  ()
+%DOSMaskDesc DEFAULT  ('JSON ICS (*.jcs)')
+%DOSMask DEFAULT  ('*.jcs')
+%DOSMoreMasks MULTI LONG  (1)
+%DOSMoreMaskDesc DEPEND %DOSMoreMasks DEFAULT TIMES 1
+WHEN  (1) ('All Files - *.*')
+
+%DOSMoreMask DEPEND %DOSMoreMasks DEFAULT TIMES 1
+WHEN  (1) ('*.*')
+
+%AssignToImageControl LONG  (0)
+%ImageControl DEFAULT  ('')
+%ImageResize LONG  (1)
+[WINDOW]
+Window  WINDOW('Ham213'),AT(,,521,268),FONT('MS Sans Serif',8),DOUBLE,ICON('Ham213.ico'),GRAY
+          GROUP('ICS-213'),AT(3,2,264,238),USE(?ICS213:Group),BOXED,#ORDINAL(1)
+            PROMPT('To:'),AT(9,15),USE(?To_213:Prompt),#ORDINAL(2)
+            ENTRY(@s80),AT(45,15,83,10),USE(To_213),MSG('Required TO field on ICS-213 form'), |
+              REQ,TIP('Required TO field on ICS-213 form'),#ORDINAL(3)
+            PROMPT('Position:'),AT(132,15),USE(?ToPos_213:Prompt),#ORDINAL(4)
+            ENTRY(@s80),AT(163,15,97,10),USE(ToPos_213),MSG('Required (to) POSITION fie' & |
+              'ld on ICS-213 form.'),REQ,TIP('Required (to) POSITION field on ICS-213 form.'), |
+              #ORDINAL(5)
+            PROMPT('From:'),AT(9,30),USE(?From_213:Prompt),#ORDINAL(6)
+            ENTRY(@s80),AT(45,30,83,10),USE(From_213),MSG('Required FROM field on ICS-213 form.'), |
+              REQ,TIP('Required FROM field on ICS-213 form.'),#ORDINAL(7)
+            PROMPT('Position:'),AT(132,30),USE(?FromPos_213:Prompt),#ORDINAL(8)
+            ENTRY(@s80),AT(163,30,97,10),USE(FromPos_213),MSG('Required (from) POSITION' & |
+              ' field on ICS-213 form.'),REQ,TIP('Required (from) POSITION field on ICS' & |
+              '-213 form.'),#ORDINAL(9)
+            PROMPT('Subject:'),AT(9,45),USE(?Subject_213:Prompt),#ORDINAL(10)
+            ENTRY(@s127),AT(45,44,215,10),USE(Subject_213),MSG('Required SUBJECT field ' & |
+              'on ICS-213 form.'),REQ,TIP('Required SUBJECT field on ICS-213 form.'),#ORDINAL(11)
+            PROMPT('Date:'),AT(9,60),USE(?Date_213:Prompt),#ORDINAL(12)
+            ENTRY(@s20),AT(45,59,52,10),USE(Date_213),MSG('Required DATE field on ICS-213 form.'), |
+              REQ,TIP('Required DATE field on ICS-213 form.'),#ORDINAL(13)
+            PROMPT('Time:'),AT(101,60),USE(?Time_213:Prompt),#ORDINAL(14)
+            ENTRY(@s20),AT(124,59,39,10),USE(Time_213),MSG('Required TIME field on ICS-213 form.'), |
+              TIP('Required TIME field on ICS-213 form.'),#ORDINAL(15)
+            PROMPT('Message ID:'),AT(9,73),USE(?MessageID_213:Prompt),#ORDINAL(16)
+            ENTRY(@s20),AT(55,74,107,10),USE(MessageID_213),MSG('Optional message ID'),TIP('Optional message ID'), |
+              #ORDINAL(17)
+            CHECK('Exercise'),AT(167,74),USE(isExercise_213),MSG('A 1 (true) value indi' & |
+              'cates that this message is exercise traffic only.'),TIP('A 1 (true) valu' & |
+              'e indicates that this message is exercise traffic only.'),VALUE('1','0'),#ORDINAL(18)
+            PROMPT('Message:'),AT(9,88),USE(?Message_213:Prompt),#ORDINAL(19)
+            TEXT,AT(45,89,215,131),USE(Message_213),LEFT,VSCROLL,MSG('Required MESSAGE ' & |
+              'field on ICS-213 form.'),REQ,TIP('Required MESSAGE field on ICS-213 form.'), |
+              #ORDINAL(20)
+            PROMPT('Signature:'),AT(9,225),USE(?Signature_213:Prompt),#ORDINAL(21)
+            ENTRY(@s80),AT(45,225,83,10),USE(Signature_213),MSG('Required SIGNATURE fie' & |
+              'ld on ICS-213 form.'),REQ,TIP('Required SIGNATURE field on ICS-213 form.'), |
+              #ORDINAL(22)
+            PROMPT('Position:'),AT(132,225),USE(?SignaturePos_213:Prompt),#ORDINAL(23)
+            ENTRY(@s80),AT(163,225,97,10),USE(SignaturePos_213),MSG('Required (signatur' & |
+              'e) POSITION field on ICS-213 form.'),REQ,TIP('Required (signature) POSIT' & |
+              'ION field on ICS-213 form.'),#ORDINAL(24)
+          END
+          GROUP('JSON'),AT(271,2,248,238),USE(?JSON:Group),BOXED,#ORDINAL(25)
+            TEXT,AT(278,15,235,220),USE(JSON_213),VSCROLL,MSG('JSON string representati' & |
+              'on of ICS-213 form.'),TIP('JSON string representation of ICS-213 form.'),#ORDINAL(26)
+          END
+          BUTTON('Cl&ose'),AT(2,244,54,22),USE(?Close:Button),LEFT,ICON('xpClose.ico'),FLAT, |
+            #ORIG(?Close),#SEQ(1),#ORDINAL(27)
+          BUTTON('To JSON'),AT(213,244,54,22),USE(?ToJSON:Button),RIGHT,ICON('xpExport.ico'), |
+            DEFAULT,FLAT,#ORDINAL(28)
+          BUTTON('&About'),AT(465,244,54,22),USE(?About:Button),LEFT,ICON(ICON:Asterisk),FLAT, |
+            #ORDINAL(29)
+          BUTTON('To ICS-213'),AT(271,244,54,22),USE(?To213:Button),LEFT,ICON('xpImport.ico'), |
+            FLAT,#ORDINAL(30)
+          BUTTON('&Print'),AT(159,244,54,22),USE(?ICS213Print:Button),LEFT,ICON('xpPrint.ico'), |
+            FLAT,#ORDINAL(31)
+          BUTTON('Open &File'),AT(329,244,57,12),USE(?Open:File),LEFT,ICON('smFolder.ico'), |
+            FLAT,HIDE,#ORIG(?LookupFile),#SEQ(2),#ORDINAL(32)
+        END
+
+[PROCEDURE]
+NAME UpdateICS213
+[COMMON]
+FROM Clarion Window
+MODIFIED '2011/12/07' '18:00:05'
+[DATA]
+LocalRequest             LONG
+!!> GUID('7493daf4-2884-4b5c-90af-3e9d686b9f16')
+OriginalRequest          LONG
+!!> GUID('434366c8-a621-44ea-b914-5c021429af66')
+LocalResponse            LONG
+!!> GUID('04fc13ee-291c-4345-87f8-8cda8e7ae22c')
+FilesOpened              LONG
+!!> GUID('e563532b-180d-4417-9256-5069ccb06701')
+WindowOpened             LONG
+!!> GUID('90af6f17-7dd2-4bb5-b352-0da1bfb5847a')
+WindowInitialized        LONG
+!!> GUID('b8c411b1-a72d-46f0-9fad-a69b63ae85b4')
+ForceRefresh             LONG
+!!> GUID('4debdd90-fbc7-41aa-a85c-f041d669e83f')
+[PROMPTS]
+%Parameters DEFAULT  ('')
+%ReturnValue FIELD  ()
+%WindowOperationMode DEFAULT  ('Use WINDOW setting')
+%INISaveWindow LONG  (1)
+%ProcedureDisableEnhanceFocus LONG  (0)
+%ProcedureUseEnterInsteadTabOverride LONG  (0)
+%WindowUseEnterInsteadTab LONG  (1)
+%ProcedureUseEnterInsteadTabExcludeListCombo LONG  (0)
+%ProcedureUseEnterInsteadTabEnableNextTabStop LONG  (0)
+%ProcedureUseEnterInsteadTabExcludeG LONG  (1)
+%WindowUseEnterInsteadTabExclude MULTI DEFAULT  ()
+%WindowStyles MULTI LONG  ()
+%WindowStyleFontName DEPEND %WindowStyles DEFAULT TIMES 0
+
+%WindowStyleFontNameVariable DEPEND %WindowStyles DEFAULT TIMES 0
+
+%WindowStyleFontNameIsVariable DEPEND %WindowStyles LONG TIMES 0
+
+%WindowStyleFontSize DEPEND %WindowStyles DEFAULT TIMES 0
+
+%WindowStyleFontSizeVariable DEPEND %WindowStyles DEFAULT TIMES 0
+
+%WindowStyleFontSizeIsVariable DEPEND %WindowStyles LONG TIMES 0
+
+%WindowStyleFontStyle DEPEND %WindowStyles DEFAULT TIMES 0
+
+%WindowStyleFontStyleVariable DEPEND %WindowStyles DEFAULT TIMES 0
+
+%WindowStyleFontStyleIsVariable DEPEND %WindowStyles LONG TIMES 0
+
+%WindowStyleFontColor DEPEND %WindowStyles DEFAULT TIMES 0
+
+%WindowStyleFontCharSet DEPEND %WindowStyles DEFAULT TIMES 0
+
+%WindowStyleForegroundNormal DEPEND %WindowStyles LONG TIMES 0
+
+%WindowStyleForegroundNormalVariable DEPEND %WindowStyles DEFAULT TIMES 0
+
+%WindowStyleForegroundNormalIsVariable DEPEND %WindowStyles LONG TIMES 0
+
+%WindowStyleBackgroundNormal DEPEND %WindowStyles LONG TIMES 0
+
+%WindowStyleBackgroundNormalVariable DEPEND %WindowStyles DEFAULT TIMES 0
+
+%WindowStyleBackgroundNormalIsVariable DEPEND %WindowStyles LONG TIMES 0
+
+%WindowStyleForegroundSelected DEPEND %WindowStyles LONG TIMES 0
+
+%WindowStyleForegroundSelectedVariable DEPEND %WindowStyles DEFAULT TIMES 0
+
+%WindowStyleForegroundSelectedIsVariable DEPEND %WindowStyles LONG TIMES 0
+
+%WindowStyleBackgroundSelected DEPEND %WindowStyles LONG TIMES 0
+
+%WindowStyleBackgroundSelectedVariable DEPEND %WindowStyles DEFAULT TIMES 0
+
+%WindowStyleBackgroundSelectedIsVariable DEPEND %WindowStyles LONG TIMES 0
+
+%WindowStylePicture DEPEND %WindowStyles DEFAULT TIMES 0
+
+%WindowStylePictureVariable DEPEND %WindowStyles DEFAULT TIMES 0
+
+%WindowStylePictureIsVariable DEPEND %WindowStyles LONG TIMES 0
+
+%WindowStyleOtherListboxes MULTI DEFAULT  ()
+%ProcedureAutoBindFields MULTI LONG  ()
+%ProcedureAutoBindField DEPEND %ProcedureAutoBindFields DEFAULT TIMES 0
+
+%ProcedureAutoBindFieldTPL DEPEND %ProcedureAutoBindFields DEFAULT TIMES 0
+
+%ProcedureAutoBindProcedures MULTI LONG  ()
+%ProcedureAutoBindProcedure DEPEND %ProcedureAutoBindProcedures DEFAULT TIMES 0
+
+%ProcedureAutoBindProcedureTPL DEPEND %ProcedureAutoBindProcedures DEFAULT TIMES 0
+
+%ProcedureAutoBindFieldsIgnored MULTI LONG  ()
+%ProcedureAutoBindFieldIgnored DEPEND %ProcedureAutoBindFieldsIgnored DEFAULT TIMES 0
+
+%ProcedureAutoBindProceduresIgnored MULTI LONG  ()
+%ProcedureAutoBindProcedureIgnored DEPEND %ProcedureAutoBindProceduresIgnored DEFAULT TIMES 0
+
+%ProcedureAutoBindValidToAddField LONG  (1)
+%ProcedureUserBindFields MULTI LONG  ()
+%ProcedureUserBindField DEPEND %ProcedureUserBindFields FIELD TIMES 0
+
+%ProcedureAutoBindFieldIgnore DEPEND %ProcedureAutoBindFields LONG TIMES 0
+
+%ProcedureUserBindProcedures MULTI LONG  ()
+%ProcedureUserBindProcedure DEPEND %ProcedureUserBindProcedures PROCEDURE TIMES 0
+
+%ProcedureAutoBindProcedureIgnore DEPEND %ProcedureAutoBindProcedures LONG TIMES 0
+
+%ProcedureUserBindExpressions MULTI LONG  ()
+%ProcedureUserBindExpressionName DEPEND %ProcedureUserBindExpressions DEFAULT TIMES 0
+
+%ProcedureUserBindExpression DEPEND %ProcedureUserBindExpressions DEFAULT TIMES 0
+
+%ButtonAction DEPEND %Control DEFAULT TIMES 3
+WHEN  ('') ('No Special Action')
+WHEN  ('?CancelButton') ('No Special Action')
+WHEN  ('?OkButton') ('No Special Action')
+
+%ButtonRunName DEPEND %Control DEFAULT TIMES 0
+
+%ButtonRunParameters DEPEND %Control DEFAULT TIMES 0
+
+%ButtonProcedure DEPEND %Control PROCEDURE TIMES 0
+
+%ButtonThread DEPEND %Control LONG TIMES 0
+
+%ButtonThreadStack DEPEND %Control DEFAULT TIMES 3
+WHEN  ('') ('25000')
+WHEN  ('?CancelButton') ('25000')
+WHEN  ('?OkButton') ('25000')
+
+%ButtonParameters DEPEND %Control DEFAULT TIMES 0
+
+%ButtonReturnValueAssignment DEPEND %Control FIELD TIMES 0
+
+%ButtonReturnValueReferenceAssign DEPEND %Control LONG TIMES 0
+
+%ButtonRequest DEPEND %Control DEFAULT TIMES 3
+WHEN  ('') ('None')
+WHEN  ('?CancelButton') ('None')
+WHEN  ('?OkButton') ('None')
+
+%ButtonThreadParameters DEPEND %Control DEFAULT TIMES 0
+
+%ButtonThreadReturnValueAssignment DEPEND %Control FIELD TIMES 0
+
+%PreLookupKey DEPEND %Control KEY TIMES 0
+
+%PreLookupField DEPEND %Control COMPONENT TIMES 0
+
+%PreLookupProcedure DEPEND %Control PROCEDURE TIMES 0
+
+%PreLookupProcedureParameters DEPEND %Control DEFAULT TIMES 0
+
+%PostLookupKey DEPEND %Control KEY TIMES 0
+
+%PostLookupField DEPEND %Control COMPONENT TIMES 0
+
+%PostLookupProcedure DEPEND %Control PROCEDURE TIMES 0
+
+%PostLookupProcedureParameters DEPEND %Control DEFAULT TIMES 0
+
+%PostLookupDuringValidate DEPEND %Control LONG TIMES 2
+WHEN  ('') (1)
+WHEN  ('?CancelButton') (1)
+
+%LookupAssign DEPEND %Control MULTI LONG TIMES 0
+
+%MoreTarget DEPEND %LookupAssign FIELD TIMES 0
+
+%MoreField DEPEND %LookupAssign DEFAULT TIMES 0
+
+%ForceWindowRefresh DEPEND %Control LONG TIMES 0
+
+%CheckedAssigns DEPEND %Control MULTI LONG TIMES 0
+
+%CheckedAssignVariable DEPEND %CheckedAssigns FIELD TIMES 0
+
+%CheckedAssignValue DEPEND %CheckedAssigns DEFAULT TIMES 0
+
+%CheckedHides DEPEND %Control MULTI LONG TIMES 0
+
+%CheckedControl DEPEND %CheckedHides DEFAULT TIMES 0
+
+%CheckedControlAction DEPEND %CheckedHides DEFAULT TIMES 2
+WHEN  ('')TIMES 0
+WHEN  ('?CancelButton')TIMES 0
+
+%CheckedDisables DEPEND %Control MULTI LONG TIMES 0
+
+%CheckedDisableControl DEPEND %CheckedDisables DEFAULT TIMES 0
+
+%CheckedDisableControlAction DEPEND %CheckedDisables DEFAULT TIMES 2
+WHEN  ('')TIMES 0
+WHEN  ('?CancelButton')TIMES 0
+
+%UncheckedAssigns DEPEND %Control MULTI LONG TIMES 0
+
+%UncheckedAssignVariable DEPEND %UncheckedAssigns FIELD TIMES 0
+
+%UncheckedAssignValue DEPEND %UncheckedAssigns DEFAULT TIMES 0
+
+%UnCheckedHides DEPEND %Control MULTI LONG TIMES 0
+
+%UnCheckedControl DEPEND %UnCheckedHides DEFAULT TIMES 0
+
+%UnCheckedControlAction DEPEND %UnCheckedHides DEFAULT TIMES 2
+WHEN  ('')TIMES 0
+WHEN  ('?CancelButton')TIMES 0
+
+%UnCheckedDisables DEPEND %Control MULTI LONG TIMES 0
+
+%UnCheckedDisableControl DEPEND %UnCheckedDisables DEFAULT TIMES 0
+
+%UnCheckedDisableControlAction DEPEND %UnCheckedDisables DEFAULT TIMES 2
+WHEN  ('')TIMES 0
+WHEN  ('?CancelButton')TIMES 0
+
+%ExtUITabIcon DEPEND %Control DEFAULT TIMES 0
+
+%ExtUITabStyleOverrideGlobal DEPEND %Control LONG TIMES 0
+
+%ExtUITabStyle DEPEND %Control DEFAULT TIMES 2
+WHEN  ('') ('Default')
+WHEN  ('?CancelButton') ('Default')
+
+[WINDOW]
+Window  WINDOW('Caption'),AT(,,395,224),FONT('MS Sans Serif',8),GRAY
+          BUTTON('&OK'),AT(291,201,41,14),USE(?OkButton),DEFAULT
+          BUTTON('&Cancel'),AT(333,201,42,14),USE(?CancelButton)
+        END
+
+[PROCEDURE]
+NAME AboutHam213
+[COMMON]
+FROM Clarion Window
+MODIFIED '2011/12/05' '15:06:26'
+[DATA]
+LocalRequest             LONG
+!!> GUID('4cf87139-2e4e-4970-8656-9bbc4b3f612e')
+OriginalRequest          LONG
+!!> GUID('96bcfb66-b234-441c-8de1-90e9c875c91c')
+LocalResponse            LONG
+!!> GUID('9244ff66-307b-4980-ace4-0338c599af05')
+FilesOpened              LONG
+!!> GUID('aef64bb0-ff95-45ee-a7d3-c79e3498b084')
+WindowOpened             LONG
+!!> GUID('dfac2a91-b313-4032-9010-26a5b998f461')
+WindowInitialized        LONG
+!!> GUID('fa4df660-5a6d-421b-a029-cddae87bc31d')
+ForceRefresh             LONG
+!!> GUID('5b29c6c7-243e-46ae-986e-dd760da5abe5')
+[SCREENCONTROLS]
+! PROMPT('URL:'),USE(?Author:URL:Prompt)
+! ENTRY(@s255),USE(Author:URL),MSG('URL to Author''s site'),TIP('URL to Author''s site')
+[REPORTCONTROLS]
+! STRING(@s255),USE(Author:URL)
+Author:URL               CSTRING(256) !URL to Author's site
+!!> GUID('29d03462-077d-48ac-af20-c1180e58668d'),PROMPT('URL:'),HEADER('URL'),MESSAGE('URL to Author''s site'),TOOLTIP('URL to Author''s site'),PICTURE(@s255),TYPEMODE(INS),READONLY
+[PROMPTS]
+%Parameters DEFAULT  ('')
+%ReturnValue FIELD  ()
+%WindowOperationMode DEFAULT  ('Use WINDOW setting')
+%INISaveWindow LONG  (1)
+%ProcedureDisableEnhanceFocus LONG  (0)
+%ProcedureUseEnterInsteadTabOverride LONG  (0)
+%WindowUseEnterInsteadTab LONG  (1)
+%ProcedureUseEnterInsteadTabExcludeListCombo LONG  (0)
+%ProcedureUseEnterInsteadTabEnableNextTabStop LONG  (0)
+%ProcedureUseEnterInsteadTabExcludeG LONG  (1)
+%WindowUseEnterInsteadTabExclude MULTI DEFAULT  ()
+%WindowStyles MULTI LONG  ()
+%WindowStyleFontName DEPEND %WindowStyles DEFAULT TIMES 0
+
+%WindowStyleFontNameVariable DEPEND %WindowStyles DEFAULT TIMES 0
+
+%WindowStyleFontNameIsVariable DEPEND %WindowStyles LONG TIMES 0
+
+%WindowStyleFontSize DEPEND %WindowStyles DEFAULT TIMES 0
+
+%WindowStyleFontSizeVariable DEPEND %WindowStyles DEFAULT TIMES 0
+
+%WindowStyleFontSizeIsVariable DEPEND %WindowStyles LONG TIMES 0
+
+%WindowStyleFontStyle DEPEND %WindowStyles DEFAULT TIMES 0
+
+%WindowStyleFontStyleVariable DEPEND %WindowStyles DEFAULT TIMES 0
+
+%WindowStyleFontStyleIsVariable DEPEND %WindowStyles LONG TIMES 0
+
+%WindowStyleFontColor DEPEND %WindowStyles DEFAULT TIMES 0
+
+%WindowStyleFontCharSet DEPEND %WindowStyles DEFAULT TIMES 0
+
+%WindowStyleForegroundNormal DEPEND %WindowStyles LONG TIMES 0
+
+%WindowStyleForegroundNormalVariable DEPEND %WindowStyles DEFAULT TIMES 0
+
+%WindowStyleForegroundNormalIsVariable DEPEND %WindowStyles LONG TIMES 0
+
+%WindowStyleBackgroundNormal DEPEND %WindowStyles LONG TIMES 0
+
+%WindowStyleBackgroundNormalVariable DEPEND %WindowStyles DEFAULT TIMES 0
+
+%WindowStyleBackgroundNormalIsVariable DEPEND %WindowStyles LONG TIMES 0
+
+%WindowStyleForegroundSelected DEPEND %WindowStyles LONG TIMES 0
+
+%WindowStyleForegroundSelectedVariable DEPEND %WindowStyles DEFAULT TIMES 0
+
+%WindowStyleForegroundSelectedIsVariable DEPEND %WindowStyles LONG TIMES 0
+
+%WindowStyleBackgroundSelected DEPEND %WindowStyles LONG TIMES 0
+
+%WindowStyleBackgroundSelectedVariable DEPEND %WindowStyles DEFAULT TIMES 0
+
+%WindowStyleBackgroundSelectedIsVariable DEPEND %WindowStyles LONG TIMES 0
+
+%WindowStylePicture DEPEND %WindowStyles DEFAULT TIMES 0
+
+%WindowStylePictureVariable DEPEND %WindowStyles DEFAULT TIMES 0
+
+%WindowStylePictureIsVariable DEPEND %WindowStyles LONG TIMES 0
+
+%WindowStyleOtherListboxes MULTI DEFAULT  ()
+%ProcedureAutoBindFields MULTI LONG  ()
+%ProcedureAutoBindField DEPEND %ProcedureAutoBindFields DEFAULT TIMES 0
+
+%ProcedureAutoBindFieldTPL DEPEND %ProcedureAutoBindFields DEFAULT TIMES 0
+
+%ProcedureAutoBindProcedures MULTI LONG  ()
+%ProcedureAutoBindProcedure DEPEND %ProcedureAutoBindProcedures DEFAULT TIMES 0
+
+%ProcedureAutoBindProcedureTPL DEPEND %ProcedureAutoBindProcedures DEFAULT TIMES 0
+
+%ProcedureAutoBindFieldsIgnored MULTI LONG  ()
+%ProcedureAutoBindFieldIgnored DEPEND %ProcedureAutoBindFieldsIgnored DEFAULT TIMES 0
+
+%ProcedureAutoBindProceduresIgnored MULTI LONG  ()
+%ProcedureAutoBindProcedureIgnored DEPEND %ProcedureAutoBindProceduresIgnored DEFAULT TIMES 0
+
+%ProcedureAutoBindValidToAddField LONG  (1)
+%ProcedureUserBindFields MULTI LONG  ()
+%ProcedureUserBindField DEPEND %ProcedureUserBindFields FIELD TIMES 0
+
+%ProcedureAutoBindFieldIgnore DEPEND %ProcedureAutoBindFields LONG TIMES 0
+
+%ProcedureUserBindProcedures MULTI LONG  ()
+%ProcedureUserBindProcedure DEPEND %ProcedureUserBindProcedures PROCEDURE TIMES 0
+
+%ProcedureAutoBindProcedureIgnore DEPEND %ProcedureAutoBindProcedures LONG TIMES 0
+
+%ProcedureUserBindExpressions MULTI LONG  ()
+%ProcedureUserBindExpressionName DEPEND %ProcedureUserBindExpressions DEFAULT TIMES 0
+
+%ProcedureUserBindExpression DEPEND %ProcedureUserBindExpressions DEFAULT TIMES 0
+
+%ButtonAction DEPEND %Control DEFAULT TIMES 2
+WHEN  ('') ('No Special Action')
+WHEN  ('?Close:Button') ('No Special Action')
+
+%ButtonRunName DEPEND %Control DEFAULT TIMES 0
+
+%ButtonRunParameters DEPEND %Control DEFAULT TIMES 0
+
+%ButtonProcedure DEPEND %Control PROCEDURE TIMES 0
+
+%ButtonThread DEPEND %Control LONG TIMES 0
+
+%ButtonThreadStack DEPEND %Control DEFAULT TIMES 2
+WHEN  ('') ('25000')
+WHEN  ('?Close:Button') ('25000')
+
+%ButtonParameters DEPEND %Control DEFAULT TIMES 0
+
+%ButtonReturnValueAssignment DEPEND %Control FIELD TIMES 0
+
+%ButtonReturnValueReferenceAssign DEPEND %Control LONG TIMES 0
+
+%ButtonRequest DEPEND %Control DEFAULT TIMES 2
+WHEN  ('') ('None')
+WHEN  ('?Close:Button') ('None')
+
+%ButtonThreadParameters DEPEND %Control DEFAULT TIMES 0
+
+%ButtonThreadReturnValueAssignment DEPEND %Control FIELD TIMES 0
+
+%PreLookupKey DEPEND %Control KEY TIMES 0
+
+%PreLookupField DEPEND %Control COMPONENT TIMES 0
+
+%PreLookupProcedure DEPEND %Control PROCEDURE TIMES 0
+
+%PreLookupProcedureParameters DEPEND %Control DEFAULT TIMES 0
+
+%PostLookupKey DEPEND %Control KEY TIMES 0
+
+%PostLookupField DEPEND %Control COMPONENT TIMES 0
+
+%PostLookupProcedure DEPEND %Control PROCEDURE TIMES 0
+
+%PostLookupProcedureParameters DEPEND %Control DEFAULT TIMES 0
+
+%PostLookupDuringValidate DEPEND %Control LONG TIMES 2
+WHEN  ('') (1)
+WHEN  ('?Author:URL') (1)
+
+%LookupAssign DEPEND %Control MULTI LONG TIMES 0
+
+%MoreTarget DEPEND %LookupAssign FIELD TIMES 0
+
+%MoreField DEPEND %LookupAssign DEFAULT TIMES 0
+
+%ForceWindowRefresh DEPEND %Control LONG TIMES 0
+
+%CheckedAssigns DEPEND %Control MULTI LONG TIMES 0
+
+%CheckedAssignVariable DEPEND %CheckedAssigns FIELD TIMES 0
+
+%CheckedAssignValue DEPEND %CheckedAssigns DEFAULT TIMES 0
+
+%CheckedHides DEPEND %Control MULTI LONG TIMES 0
+
+%CheckedControl DEPEND %CheckedHides DEFAULT TIMES 0
+
+%CheckedControlAction DEPEND %CheckedHides DEFAULT TIMES 1
+WHEN  ('')TIMES 0
+
+%CheckedDisables DEPEND %Control MULTI LONG TIMES 0
+
+%CheckedDisableControl DEPEND %CheckedDisables DEFAULT TIMES 0
+
+%CheckedDisableControlAction DEPEND %CheckedDisables DEFAULT TIMES 1
+WHEN  ('')TIMES 0
+
+%UncheckedAssigns DEPEND %Control MULTI LONG TIMES 0
+
+%UncheckedAssignVariable DEPEND %UncheckedAssigns FIELD TIMES 0
+
+%UncheckedAssignValue DEPEND %UncheckedAssigns DEFAULT TIMES 0
+
+%UnCheckedHides DEPEND %Control MULTI LONG TIMES 0
+
+%UnCheckedControl DEPEND %UnCheckedHides DEFAULT TIMES 0
+
+%UnCheckedControlAction DEPEND %UnCheckedHides DEFAULT TIMES 1
+WHEN  ('')TIMES 0
+
+%UnCheckedDisables DEPEND %Control MULTI LONG TIMES 0
+
+%UnCheckedDisableControl DEPEND %UnCheckedDisables DEFAULT TIMES 0
+
+%UnCheckedDisableControlAction DEPEND %UnCheckedDisables DEFAULT TIMES 1
+WHEN  ('')TIMES 0
+
+%ExtUITabIcon DEPEND %Control DEFAULT TIMES 0
+
+%ExtUITabStyleOverrideGlobal DEPEND %Control LONG TIMES 0
+
+%ExtUITabStyle DEPEND %Control DEFAULT TIMES 1
+WHEN  ('') ('Default')
+
+[EMBED]
+EMBED %AfterWindowOpening
+[DEFINITION]
+[SOURCE]
+PROPERTY:BEGIN
+PRIORITY 5000
+PROPERTY:END
+!! Set product values
+?VersionNumber:Prompt{PROP:Text}  = app:Version
+?AuthorText:Prompt{PROP:Text}     = app:Author
+Author:URL                        = app:Website
+?Copyright:Prompt{PROP:Text}      = app:Copyright
+?License:Prompt{PROP:Text}        = app:License
+[END]
+[END]
+[ADDITION]
+NAME Clarion CloseButton
+[INSTANCE]
+INSTANCE 1
+[WINDOW]
+Window  WINDOW('About Ham213'),AT(,,196,154),FONT('MS Sans Serif',8),GRAY
+          PROMPT('Ham213 is a Proof-of-Concept app for handling ICS-213 messages over t' & |
+            'he air for Amateur Radio.'),AT(3,12,188,24),USE(?About:Prompt),#ORDINAL(1)
+          PROMPT('Author:'),AT(3,52),USE(?Author:Prompt),FONT('Microsoft Sans Serif',,,FONT:bold), |
+            #ORDINAL(2)
+          PROMPT('author'),AT(35,52,155,10),USE(?AuthorText:Prompt),#ORDINAL(3)
+          PROMPT('URL:'),AT(3,66),USE(?URL:Prompt),FONT('Microsoft Sans Serif',,,FONT:bold), |
+            #ORDINAL(4)
+          ENTRY(@s255),AT(36,63,154),USE(Author:URL),READONLY,#ORDINAL(5)
+          PROMPT('copyright notice'),AT(2,80,188,25),USE(?Copyright:Prompt),#ORDINAL(6)
+          BUTTON('Cl&ose'),AT(71,135,54,18),USE(?Close:Button),LEFT,ICON('xpClose.ico'),DEFAULT, |
+            FLAT,#ORIG(?Close),#SEQ(1),#ORDINAL(7)
+          PROMPT('Version:'),AT(3,38),USE(?Version:Prompt),FONT('Microsoft Sans Serif',,,FONT:bold), |
+            #ORDINAL(10001)
+          PROMPT('version number'),AT(37,38),USE(?VersionNumber:Prompt),#ORDINAL(10002)
+          PROMPT('license text'),AT(2,109,187,22),USE(?License:Prompt),#ORDINAL(10003)
+        END
+
+[END]
