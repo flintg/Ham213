@@ -1,0 +1,59 @@
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ProjectGuid>{610534BD-C231-474B-86C7-12C3568C688A}</ProjectGuid>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">Win32</Platform>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>Ham213</RootNamespace>
+    <AssemblyName>Ham213</AssemblyName>
+    <OutputName>Ham213</OutputName>
+    <CWOutputType>Exe</CWOutputType>
+    <DefineConstants>_TPRDllMode_=&gt;0%3b_TPRLinkMode_=&gt;1%3b</DefineConstants>
+    <StartWorkingDirectory>C:\C80\Ham213\bin</StartWorkingDirectory>
+    <stack_size>16384</stack_size>
+    <CopyCore>True</CopyCore>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <DebugSymbols>True</DebugSymbols>
+    <DebugType>Full</DebugType>
+    <vid>full</vid>
+    <check_stack>True</check_stack>
+    <check_index>True</check_index>
+    <GenerateMap>True</GenerateMap>
+    <line_numbers>False</line_numbers>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <DebugSymbols>False</DebugSymbols>
+    <DebugType>None</DebugType>
+    <vid>off</vid>
+    <check_stack>False</check_stack>
+    <check_index>False</check_index>
+    <StartAction>Project</StartAction>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="Ham213.clw">
+      <Generated>true</Generated>
+    </Compile>
+    <Compile Include="Ham213001.clw">
+      <Generated>true</Generated>
+    </Compile>
+    <Compile Include="Ham213002.clw">
+      <Generated>true</Generated>
+    </Compile>
+    <Compile Include="Ham21_RD.CLW">
+      <Generated>true</Generated>
+    </Compile>
+    <Compile Include="Ham21_RU.CLW">
+      <Generated>true</Generated>
+    </Compile>
+    <Compile Include="Ham21_SF.CLW">
+      <Generated>true</Generated>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <FileDriver Include="DOS" />
+    <FileDriver Include="MEMORY" />
+    <FileDriver Include="TOPSPEED" />
+  </ItemGroup>
+  <Import Project="$(ClarionBinPath)\SoftVelocity.Build.Clarion.targets" />
+</Project>
