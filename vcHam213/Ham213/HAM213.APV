@@ -26,8 +26,5 @@ PRIORITY 4000
 PROPERTY:END
 INCLUDE('tprValuePair.inc'), ONCE
 [END]
-EMBED %AfterClosingExports
-[INSTANCES]
-[END]
 [END]
 [END]

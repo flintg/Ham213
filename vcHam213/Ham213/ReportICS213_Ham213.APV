@@ -627,9 +627,11 @@ Detail    DETAIL,AT(0,0,8400,10900),USE(?Detail),#ORDINAL(1)
             STRING(@s80),AT(5000,5792,2396,354),USE(SignaturePos_213),#ORDINAL(10)
             TEXT,AT(375,2271,7583,3323),USE(Message_213,,?Message_213:2),RTF(TEXT:Field),LEFT, |
               #ORDINAL(11)
+            STRING(@s20),AT(1052,1969,1604),USE(MessageID_213),FONT(,,,FONT:bold),LEFT,TRN, |
+              #ORDINAL(12)
           END
-          FORM,AT(0,0,8400,10900),USE(?Form),#ORDINAL(12)
-            IMAGE('ICS213.bmp'),AT(0,0,8400,10900),USE(?ICS213:Image),#ORDINAL(13)
+          FORM,AT(0,0,8400,10900),USE(?Form),#ORDINAL(13)
+            IMAGE('ICS213.bmp'),AT(0,0,8400,10900),USE(?ICS213:Image),#ORDINAL(14)
           END
         END
 
