@@ -7,7 +7,7 @@ NAME ReportICS213
 PROTOTYPE '(*tprValuePair argValues)'
 [COMMON]
 FROM Clarion Report
-MODIFIED '2011/12/07' '18:07:35'
+MODIFIED '2012/08/27' '23:35:25'
 [DATA]
 RejectRecord             LONG
 !!> GUID('e16a3845-f734-4db7-8ded-b755900f746b')
@@ -115,11 +115,12 @@ SignaturePos_213         CSTRING(81),NAME('SIG_POS') !Required (signature) POSIT
 MessageID_213            CSTRING(21),NAME('MSGID') !Optional message ID
 !!> GUID('ca849884-3285-4f10-bc4a-ae6919a79234'),PROMPT('Message ID:'),HEADER('Message ID'),MESSAGE('Optional message ID'),TOOLTIP('Optional message ID'),PICTURE(@s20),TYPEMODE(INS)
 [SCREENCONTROLS]
-! CHECK('Exercise'),USE(isExercise_213),MSG('A 1 (true) value indicates that this message is exercise traffic only.'),VALUE('1','0'),TIP('A 1 (true) value indicates that this message is exercise traffic only.')
+! PROMPT('Exercise'),USE(?isExercise_213:Prompt)
+! STRING(@s25),USE(isExercise_213)
 [REPORTCONTROLS]
-! CHECK('Exercise'),USE(isExercise_213),VALUE('1','0')
-isExercise_213           BYTE,NAME('EXERCISE') !A 1 (true) value indicates that this message is exercise traffic only.
-!!> GUID('9a4711aa-82de-4e69-8a50-1fb23a4098b5'),VALID(BOOLEAN),PROMPT('Exercise'),HEADER('Exercise'),MESSAGE('A 1 (true) value indicates that this message is exercise traffic only.'),TOOLTIP('A 1 (true) value indicates that this message is exercise traffic only.'),PICTURE(@n3),TYPEMODE(INS),TRUEVALUE('1'),FALSEVALUE('0')
+! STRING(@s25),USE(isExercise_213),TRN,FONT(,,,FONT:bold)
+isExercise_213           STRING(25),NAME('EXERCISE') !Indicates if this traffic is marked as "Exercise" traffic
+!!> GUID('9a4711aa-82de-4e69-8a50-1fb23a4098b5'),VALID(BOOLEAN),PROMPT('Exercise'),HEADER('Exercise'),MESSAGE('Indicates if this traffic is marked as "Exercise" traffic'),TOOLTIP('Indicates if this traffic is marked as "Exercise" traffic'),PICTURE(@s25),TYPEMODE(INS),TRUEVALUE('1'),FALSEVALUE('0')
 [SCREENCONTROLS]
 ! PROMPT('RE:'),USE(?REMessageID_213:Prompt)
 ! ENTRY(@s80),USE(REMessageID_213),MSG('This field contains the message ID this message is in reply to.'),TIP('This field contains the message ID this message is in reply to.')
@@ -583,6 +584,9 @@ ICS213:PullValues ROUTINE
 !|
 !| Load ICS-213 values from tprValuePair object into local variables
 !|
+  DATA
+isExercise BYTE
+  CODE
 
   To_213            = argValues.GetValue('TO')
   ToPos_213         = argValues.GetValue('TO_POS')
@@ -594,7 +598,12 @@ ICS213:PullValues ROUTINE
   Message_213       = argValues.GetValue('MSG')
   Signature_213     = argValues.GetValue('SIG')
   SignaturePos_213  = argValues.GetValue('SIG_POS')
-  isExercise_213    = argValues.GetValue('EXERCISE', FALSE)
+  isExercise = argValues.GetValue('EXERCISE', FALSE)
+  IF isExercise
+    isExercise_213  = '***EXERCISE TRAFFIC***'
+  ELSE
+    CLEAR(isExercise_213)
+  END
   MessageID_213     = argValues.GetValue('MSGID')
   
   EXIT
@@ -627,11 +636,13 @@ Detail    DETAIL,AT(0,0,8400,10900),USE(?Detail),#ORDINAL(1)
             STRING(@s80),AT(5000,5792,2396,354),USE(SignaturePos_213),#ORDINAL(10)
             TEXT,AT(375,2271,7583,3323),USE(Message_213,,?Message_213:2),RTF(TEXT:Field),LEFT, |
               #ORDINAL(11)
-            STRING(@s20),AT(1052,1969,1604),USE(MessageID_213),FONT(,,,FONT:bold),LEFT,TRN, |
+            STRING(@s25),AT(375,1969,7583),USE(isExercise_213),FONT(,,,FONT:bold),CENTER,TRN, |
               #ORDINAL(12)
+            STRING(@s20),AT(1052,1969,1604),USE(MessageID_213),FONT(,,,FONT:bold),LEFT,TRN, |
+              #ORDINAL(13)
           END
-          FORM,AT(0,0,8400,10900),USE(?Form),#ORDINAL(13)
-            IMAGE('ICS213.bmp'),AT(0,0,8400,10900),USE(?ICS213:Image),#ORDINAL(14)
+          FORM,AT(0,0,8400,10900),USE(?Form),#ORDINAL(14)
+            IMAGE('ICS213.bmp'),AT(0,0,8400,10900),USE(?ICS213:Image),#ORDINAL(15)
           END
         END
 

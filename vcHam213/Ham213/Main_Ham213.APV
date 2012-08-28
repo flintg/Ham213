@@ -6,7 +6,7 @@ FROM Clarion GENERATED
 NAME Main
 [COMMON]
 FROM Clarion Window
-MODIFIED '2012/08/27' '23:22:34'
+MODIFIED '2012/08/27' '23:38:24'
 [DATA]
 LocalRequest             LONG
 !!> GUID('54cd7231-c685-49f6-b8b0-aa25bfde2ee5')
@@ -673,6 +673,7 @@ ICS213:PutValues ROUTINE
   ICS213Values.AddValue('DATE',       ICS213.Date_213)
   ICS213Values.AddValue('TIME',       ICS213.Time_213)
   ICS213Values.AddValue('MSGID',      ICS213.MessageID_213)
+  ICS213Values.AddValue('EXERCISE',   ICS213.isExercise_213)
   ICS213Values.AddValue('MSG',        ICS213.Message_213)
   ICS213Values.AddValue('SIG',        ICS213.Signature_213)
   ICS213Values.AddValue('SIG_POS',    ICS213.SignaturePos_213)
