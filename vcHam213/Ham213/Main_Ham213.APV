@@ -6,7 +6,7 @@ FROM Clarion GENERATED
 NAME Main
 [COMMON]
 FROM Clarion Window
-MODIFIED '2012/08/27' '23:38:24'
+MODIFIED '2012/08/28' ' 0:00:06'
 [DATA]
 LocalRequest             LONG
 !!> GUID('54cd7231-c685-49f6-b8b0-aa25bfde2ee5')
@@ -345,12 +345,14 @@ DOSTargetVariable        CSTRING(256)
 
 %ProcedureUserBindExpression DEPEND %ProcedureUserBindExpressions DEFAULT TIMES 0
 
-%ButtonAction DEPEND %Control DEFAULT TIMES 8
+%ButtonAction DEPEND %Control DEFAULT TIMES 10
 WHEN  ('') ('No Special Action')
 WHEN  ('?About:Button') ('Call a Procedure')
+WHEN  ('?Clear:JSON') ('No Special Action')
 WHEN  ('?Close:Button') ('No Special Action')
 WHEN  ('?ICS213Print:Button') ('Call a Procedure')
 WHEN  ('?JSON_213') ('No Special Action')
+WHEN  ('?Now:Button') ('No Special Action')
 WHEN  ('?Open:File') ('No Special Action')
 WHEN  ('?To213:Button') ('No Special Action')
 WHEN  ('?ToJSON:Button') ('No Special Action')
@@ -375,12 +377,14 @@ WHEN  ('?About:Button') (0)
 WHEN  ('?ICS213Print:Button') (0)
 WHEN  ('?Open:File') (0)
 
-%ButtonThreadStack DEPEND %Control DEFAULT TIMES 8
+%ButtonThreadStack DEPEND %Control DEFAULT TIMES 10
 WHEN  ('') ('25000')
 WHEN  ('?About:Button') ('25000')
+WHEN  ('?Clear:JSON') ('25000')
 WHEN  ('?Close:Button') ('25000')
 WHEN  ('?ICS213Print:Button') ('25000')
 WHEN  ('?JSON_213') ('25000')
+WHEN  ('?Now:Button') ('25000')
 WHEN  ('?Open:File') ('25000')
 WHEN  ('?To213:Button') ('25000')
 WHEN  ('?ToJSON:Button') ('25000')
@@ -400,12 +404,14 @@ WHEN  ('?About:Button') (0)
 WHEN  ('?ICS213Print:Button') (0)
 WHEN  ('?Open:File') (0)
 
-%ButtonRequest DEPEND %Control DEFAULT TIMES 8
+%ButtonRequest DEPEND %Control DEFAULT TIMES 10
 WHEN  ('') ('None')
 WHEN  ('?About:Button') ('None')
+WHEN  ('?Clear:JSON') ('None')
 WHEN  ('?Close:Button') ('None')
 WHEN  ('?ICS213Print:Button') ('None')
 WHEN  ('?JSON_213') ('None')
+WHEN  ('?Now:Button') ('None')
 WHEN  ('?Open:File') ('None')
 WHEN  ('?To213:Button') ('None')
 WHEN  ('?ToJSON:Button') ('None')
@@ -588,6 +594,33 @@ PROPERTY:END
 DO ICS213:PutValues
 [END]
 [END]
+WHEN '?Now:Button'
+[INSTANCES]
+WHEN 'Accepted'
+[DEFINITION]
+[SOURCE]
+PROPERTY:BEGIN
+PRIORITY 5000
+PROPERTY:END
+!! Set current date and time based on system clock
+ICS213.Date_213 = FORMAT(TODAY(), @d17b)
+ICS213.Time_213 = FORMAT(CLOCK(), @t7b)
+DISPLAY()
+[END]
+[END]
+WHEN '?Clear:JSON'
+[INSTANCES]
+WHEN 'Accepted'
+[DEFINITION]
+[SOURCE]
+PROPERTY:BEGIN
+PRIORITY 5000
+PROPERTY:END
+!! Clear data in JSON field
+CLEAR(JSON_213)
+DISPLAY()
+[END]
+[END]
 [END]
 EMBED %ProcedureRoutines
 [DEFINITION]
@@ -764,41 +797,44 @@ Window  WINDOW('Ham213'),AT(,,521,268),FONT('MS Sans Serif',8),DOUBLE,ICON('Ham2
             PROMPT('Time:'),AT(101,60),USE(?Time_213:Prompt),#ORDINAL(14)
             ENTRY(@s20),AT(124,59,39,10),USE(Time_213),MSG('Required TIME field on ICS-213 form.'), |
               TIP('Required TIME field on ICS-213 form.'),#ORDINAL(15)
-            PROMPT('Message ID:'),AT(9,73),USE(?MessageID_213:Prompt),#ORDINAL(16)
+            BUTTON,AT(167,56,16,14),USE(?Now:Button),LEFT,ICON('Clock.ico'),FLAT,#ORDINAL(16)
+            PROMPT('Message ID:'),AT(9,73),USE(?MessageID_213:Prompt),#ORDINAL(17)
             ENTRY(@s20),AT(55,74,107,10),USE(MessageID_213),MSG('Optional message ID'),TIP('Optional message ID'), |
-              #ORDINAL(17)
+              #ORDINAL(18)
             CHECK('Exercise'),AT(167,74),USE(isExercise_213),MSG('A 1 (true) value indi' & |
               'cates that this message is exercise traffic only.'),TIP('A 1 (true) valu' & |
-              'e indicates that this message is exercise traffic only.'),VALUE('1','0'),#ORDINAL(18)
-            PROMPT('Message:'),AT(9,88),USE(?Message_213:Prompt),#ORDINAL(19)
+              'e indicates that this message is exercise traffic only.'),VALUE('1','0'),#ORDINAL(19)
+            PROMPT('Message:'),AT(9,88),USE(?Message_213:Prompt),#ORDINAL(20)
             TEXT,AT(45,89,215,131),USE(Message_213),LEFT,VSCROLL,MSG('Required MESSAGE ' & |
               'field on ICS-213 form.'),REQ,TIP('Required MESSAGE field on ICS-213 form.'), |
-              #ORDINAL(20)
-            PROMPT('Signature:'),AT(9,225),USE(?Signature_213:Prompt),#ORDINAL(21)
+              #ORDINAL(21)
+            PROMPT('Signature:'),AT(9,225),USE(?Signature_213:Prompt),#ORDINAL(22)
             ENTRY(@s80),AT(45,225,83,10),USE(Signature_213),MSG('Required SIGNATURE fie' & |
               'ld on ICS-213 form.'),REQ,TIP('Required SIGNATURE field on ICS-213 form.'), |
-              #ORDINAL(22)
-            PROMPT('Position:'),AT(132,225),USE(?SignaturePos_213:Prompt),#ORDINAL(23)
+              #ORDINAL(23)
+            PROMPT('Position:'),AT(132,225),USE(?SignaturePos_213:Prompt),#ORDINAL(24)
             ENTRY(@s80),AT(163,225,97,10),USE(SignaturePos_213),MSG('Required (signatur' & |
               'e) POSITION field on ICS-213 form.'),REQ,TIP('Required (signature) POSIT' & |
-              'ION field on ICS-213 form.'),#ORDINAL(24)
+              'ION field on ICS-213 form.'),#ORDINAL(25)
           END
-          GROUP('JSON'),AT(271,2,248,238),USE(?JSON:Group),BOXED,#ORDINAL(25)
+          GROUP('JSON'),AT(271,2,248,238),USE(?JSON:Group),BOXED,#ORDINAL(26)
             TEXT,AT(278,15,235,220),USE(JSON_213),VSCROLL,MSG('JSON string representati' & |
-              'on of ICS-213 form.'),TIP('JSON string representation of ICS-213 form.'),#ORDINAL(26)
+              'on of ICS-213 form.'),TIP('JSON string representation of ICS-213 form.'),#ORDINAL(27)
           END
           BUTTON('Cl&ose'),AT(2,244,54,22),USE(?Close:Button),LEFT,ICON('xpClose.ico'),FLAT, |
-            #ORIG(?Close),#SEQ(1),#ORDINAL(27)
-          BUTTON('To JSON'),AT(213,244,54,22),USE(?ToJSON:Button),RIGHT,ICON('xpExport.ico'), |
-            DEFAULT,FLAT,#ORDINAL(28)
-          BUTTON('&About'),AT(465,244,54,22),USE(?About:Button),LEFT,ICON(ICON:Asterisk),FLAT, |
-            #ORDINAL(29)
-          BUTTON('To ICS-213'),AT(271,244,54,22),USE(?To213:Button),LEFT,ICON('xpImport.ico'), |
-            FLAT,#ORDINAL(30)
+            #ORIG(?Close),#SEQ(1),#ORDINAL(28)
           BUTTON('&Print'),AT(159,244,54,22),USE(?ICS213Print:Button),LEFT,ICON('xpPrint.ico'), |
+            FLAT,#ORDINAL(32)
+          BUTTON('To JSON'),AT(213,244,54,22),USE(?ToJSON:Button),RIGHT,ICON('xpExport.ico'), |
+            DEFAULT,FLAT,#ORDINAL(29)
+          BUTTON('To ICS-213'),AT(271,244,54,22),USE(?To213:Button),LEFT,ICON('xpImport.ico'), |
             FLAT,#ORDINAL(31)
           BUTTON('Open &File'),AT(329,244,57,12),USE(?Open:File),LEFT,ICON('smFolder.ico'), |
-            FLAT,HIDE,#ORIG(?LookupFile),#SEQ(2),#ORDINAL(32)
+            FLAT,HIDE,#ORIG(?LookupFile),#SEQ(2),#ORDINAL(33)
+          BUTTON('Clea&r'),AT(407,244,54,22),USE(?Clear:JSON),LEFT,ICON('xpPurge.ico'),FLAT, |
+            #ORDINAL(34)
+          BUTTON('&About'),AT(465,244,54,22),USE(?About:Button),LEFT,ICON(ICON:Asterisk),FLAT, |
+            #ORDINAL(30)
         END
 
 [PROCEDURE]

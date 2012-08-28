@@ -179,7 +179,8 @@ WHEN  ('ClientSideTriggers:ICmsg') (0)
 
 %NewClassProperty DEPEND %NewClassPropertyItems DEFAULT TIMES 0
 
-%NewClassDataType DEPEND %NewClassPropertyItems DEFAULT TIMES 0
+%NewClassDataType DEPEND %NewClassPropertyItems DEFAULT TIMES 1
+WHEN  ('ClientSideTriggers:ICmsg')TIMES 0
 
 %NewClassOtherType DEPEND %NewClassPropertyItems DEFAULT TIMES 0
 
@@ -205,7 +206,8 @@ WHEN  ('ClientSideTriggers:ICmsg') (0)
 
 %ClassProperty DEPEND %ClassPropertyItems DEFAULT TIMES 0
 
-%ClassDataType DEPEND %ClassPropertyItems DEFAULT TIMES 0
+%ClassDataType DEPEND %ClassPropertyItems DEFAULT TIMES 1
+WHEN  ('ClientSideTriggers:ICmsg')TIMES 0
 
 %ClassOtherType DEPEND %ClassPropertyItems DEFAULT TIMES 0
 
@@ -337,9 +339,9 @@ WHEN  ('Ham213002.clw') ('1')
 -- NAMESPACE Ham213
 #system win32 exe
 #model clarion dll
+#pragma link_option(icon=>Ham213.ico)
 #pragma define(_TPRDllMode_=>0)
 #pragma define(_TPRLinkMode_=>1)
-#pragma debug(vid=>off)
 #compile "Ham213.clw" -- GENERATED
 #compile "Ham213001.clw" -- GENERATED
 #compile "Ham213002.clw" -- GENERATED
