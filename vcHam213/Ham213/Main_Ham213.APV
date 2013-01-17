@@ -6,7 +6,6 @@ FROM Clarion GENERATED
 NAME Main
 [COMMON]
 FROM Clarion Window
-MODIFIED '2012/08/28' ' 0:00:06'
 [DATA]
 LocalRequest             LONG
 !!> GUID('54cd7231-c685-49f6-b8b0-aa25bfde2ee5')
@@ -345,8 +344,7 @@ DOSTargetVariable        CSTRING(256)
 
 %ProcedureUserBindExpression DEPEND %ProcedureUserBindExpressions DEFAULT TIMES 0
 
-%ButtonAction DEPEND %Control DEFAULT TIMES 10
-WHEN  ('') ('No Special Action')
+%ButtonAction DEPEND %Control DEFAULT TIMES 9
 WHEN  ('?About:Button') ('Call a Procedure')
 WHEN  ('?Clear:JSON') ('No Special Action')
 WHEN  ('?Close:Button') ('No Special Action')
@@ -369,7 +367,7 @@ WHEN  ('?Open:File') ('')
 
 %ButtonProcedure DEPEND %Control PROCEDURE TIMES 3
 WHEN  ('?About:Button') (AboutHam213)
-WHEN  ('?ICS213Print:Button') (ReportICS213)
+WHEN  ('?ICS213Print:Button') (PrintICS213Window)
 WHEN  ('?Open:File') ()
 
 %ButtonThread DEPEND %Control LONG TIMES 3
@@ -377,8 +375,7 @@ WHEN  ('?About:Button') (0)
 WHEN  ('?ICS213Print:Button') (0)
 WHEN  ('?Open:File') (0)
 
-%ButtonThreadStack DEPEND %Control DEFAULT TIMES 10
-WHEN  ('') ('25000')
+%ButtonThreadStack DEPEND %Control DEFAULT TIMES 9
 WHEN  ('?About:Button') ('25000')
 WHEN  ('?Clear:JSON') ('25000')
 WHEN  ('?Close:Button') ('25000')
@@ -404,8 +401,7 @@ WHEN  ('?About:Button') (0)
 WHEN  ('?ICS213Print:Button') (0)
 WHEN  ('?Open:File') (0)
 
-%ButtonRequest DEPEND %Control DEFAULT TIMES 10
-WHEN  ('') ('None')
+%ButtonRequest DEPEND %Control DEFAULT TIMES 9
 WHEN  ('?About:Button') ('None')
 WHEN  ('?Clear:JSON') ('None')
 WHEN  ('?Close:Button') ('None')
@@ -442,8 +438,7 @@ WHEN  ('?Open:File') ()
 
 %PostLookupProcedureParameters DEPEND %Control DEFAULT TIMES 0
 
-%PostLookupDuringValidate DEPEND %Control LONG TIMES 15
-WHEN  ('') (1)
+%PostLookupDuringValidate DEPEND %Control LONG TIMES 14
 WHEN  ('?About:Button') (1)
 WHEN  ('?Date_213') (1)
 WHEN  ('?FromPos_213') (1)
@@ -477,8 +472,7 @@ WHEN  ('?To_213') (1)
 
 %CheckedControl DEPEND %CheckedHides DEFAULT TIMES 0
 
-%CheckedControlAction DEPEND %CheckedHides DEFAULT TIMES 5
-WHEN  ('')TIMES 0
+%CheckedControlAction DEPEND %CheckedHides DEFAULT TIMES 4
 WHEN  ('?About:Button')TIMES 0
 WHEN  ('?ICS213Print:Button')TIMES 0
 WHEN  ('?JSON_213')TIMES 0
@@ -488,8 +482,7 @@ WHEN  ('?Open:File')TIMES 0
 
 %CheckedDisableControl DEPEND %CheckedDisables DEFAULT TIMES 0
 
-%CheckedDisableControlAction DEPEND %CheckedDisables DEFAULT TIMES 5
-WHEN  ('')TIMES 0
+%CheckedDisableControlAction DEPEND %CheckedDisables DEFAULT TIMES 4
 WHEN  ('?About:Button')TIMES 0
 WHEN  ('?ICS213Print:Button')TIMES 0
 WHEN  ('?JSON_213')TIMES 0
@@ -505,8 +498,7 @@ WHEN  ('?Open:File')TIMES 0
 
 %UnCheckedControl DEPEND %UnCheckedHides DEFAULT TIMES 0
 
-%UnCheckedControlAction DEPEND %UnCheckedHides DEFAULT TIMES 5
-WHEN  ('')TIMES 0
+%UnCheckedControlAction DEPEND %UnCheckedHides DEFAULT TIMES 4
 WHEN  ('?About:Button')TIMES 0
 WHEN  ('?ICS213Print:Button')TIMES 0
 WHEN  ('?JSON_213')TIMES 0
@@ -516,8 +508,7 @@ WHEN  ('?Open:File')TIMES 0
 
 %UnCheckedDisableControl DEPEND %UnCheckedDisables DEFAULT TIMES 0
 
-%UnCheckedDisableControlAction DEPEND %UnCheckedDisables DEFAULT TIMES 5
-WHEN  ('')TIMES 0
+%UnCheckedDisableControlAction DEPEND %UnCheckedDisables DEFAULT TIMES 4
 WHEN  ('?About:Button')TIMES 0
 WHEN  ('?ICS213Print:Button')TIMES 0
 WHEN  ('?JSON_213')TIMES 0
@@ -527,8 +518,7 @@ WHEN  ('?Open:File')TIMES 0
 
 %ExtUITabStyleOverrideGlobal DEPEND %Control LONG TIMES 0
 
-%ExtUITabStyle DEPEND %Control DEFAULT TIMES 5
-WHEN  ('') ('Default')
+%ExtUITabStyle DEPEND %Control DEFAULT TIMES 4
 WHEN  ('?About:Button') ('Default')
 WHEN  ('?ICS213Print:Button') ('Default')
 WHEN  ('?JSON_213') ('Default')
@@ -824,24 +814,23 @@ Window  WINDOW('Ham213'),AT(,,521,268),FONT('MS Sans Serif',8),DOUBLE,ICON('Ham2
           BUTTON('Cl&ose'),AT(2,244,54,22),USE(?Close:Button),LEFT,ICON('xpClose.ico'),FLAT, |
             #ORIG(?Close),#SEQ(1),#ORDINAL(28)
           BUTTON('&Print'),AT(159,244,54,22),USE(?ICS213Print:Button),LEFT,ICON('xpPrint.ico'), |
-            FLAT,#ORDINAL(32)
+            FLAT,#ORDINAL(29)
           BUTTON('To JSON'),AT(213,244,54,22),USE(?ToJSON:Button),RIGHT,ICON('xpExport.ico'), |
-            DEFAULT,FLAT,#ORDINAL(29)
+            DEFAULT,FLAT,#ORDINAL(30)
           BUTTON('To ICS-213'),AT(271,244,54,22),USE(?To213:Button),LEFT,ICON('xpImport.ico'), |
             FLAT,#ORDINAL(31)
           BUTTON('Open &File'),AT(329,244,57,12),USE(?Open:File),LEFT,ICON('smFolder.ico'), |
-            FLAT,HIDE,#ORIG(?LookupFile),#SEQ(2),#ORDINAL(33)
+            FLAT,HIDE,#ORIG(?LookupFile),#SEQ(2),#ORDINAL(32)
           BUTTON('Clea&r'),AT(407,244,54,22),USE(?Clear:JSON),LEFT,ICON('xpPurge.ico'),FLAT, |
-            #ORDINAL(34)
+            #ORDINAL(33)
           BUTTON('&About'),AT(465,244,54,22),USE(?About:Button),LEFT,ICON(ICON:Asterisk),FLAT, |
-            #ORDINAL(30)
+            #ORDINAL(34)
         END
 
 [PROCEDURE]
 NAME UpdateICS213
 [COMMON]
 FROM Clarion Window
-MODIFIED '2011/12/07' '18:00:05'
 [DATA]
 LocalRequest             LONG
 !!> GUID('7493daf4-2884-4b5c-90af-3e9d686b9f16')
@@ -1078,7 +1067,6 @@ Window  WINDOW('Caption'),AT(,,395,224),FONT('MS Sans Serif',8),GRAY
 NAME AboutHam213
 [COMMON]
 FROM Clarion Window
-MODIFIED '2012/08/27' '16:27:57'
 [DATA]
 LocalRequest             LONG
 !!> GUID('4cf87139-2e4e-4970-8656-9bbc4b3f612e')
@@ -1199,7 +1187,8 @@ Author:URL               CSTRING(256) !URL to Author's site
 
 %ProcedureUserBindExpression DEPEND %ProcedureUserBindExpressions DEFAULT TIMES 0
 
-%ButtonAction DEPEND %Control DEFAULT TIMES 1
+%ButtonAction DEPEND %Control DEFAULT TIMES 2
+WHEN  ('') ('No Special Action')
 WHEN  ('?Close:Button') ('No Special Action')
 
 %ButtonRunName DEPEND %Control DEFAULT TIMES 0
@@ -1210,7 +1199,8 @@ WHEN  ('?Close:Button') ('No Special Action')
 
 %ButtonThread DEPEND %Control LONG TIMES 0
 
-%ButtonThreadStack DEPEND %Control DEFAULT TIMES 1
+%ButtonThreadStack DEPEND %Control DEFAULT TIMES 2
+WHEN  ('') ('25000')
 WHEN  ('?Close:Button') ('25000')
 
 %ButtonParameters DEPEND %Control DEFAULT TIMES 0
@@ -1219,7 +1209,8 @@ WHEN  ('?Close:Button') ('25000')
 
 %ButtonReturnValueReferenceAssign DEPEND %Control LONG TIMES 0
 
-%ButtonRequest DEPEND %Control DEFAULT TIMES 1
+%ButtonRequest DEPEND %Control DEFAULT TIMES 2
+WHEN  ('') ('None')
 WHEN  ('?Close:Button') ('None')
 
 %ButtonThreadParameters DEPEND %Control DEFAULT TIMES 0
@@ -1242,7 +1233,8 @@ WHEN  ('?Close:Button') ('None')
 
 %PostLookupProcedureParameters DEPEND %Control DEFAULT TIMES 0
 
-%PostLookupDuringValidate DEPEND %Control LONG TIMES 1
+%PostLookupDuringValidate DEPEND %Control LONG TIMES 2
+WHEN  ('') (1)
 WHEN  ('?Author:URL') (1)
 
 %LookupAssign DEPEND %Control MULTI LONG TIMES 0
@@ -1263,13 +1255,15 @@ WHEN  ('?Author:URL') (1)
 
 %CheckedControl DEPEND %CheckedHides DEFAULT TIMES 0
 
-%CheckedControlAction DEPEND %CheckedHides DEFAULT TIMES 0
+%CheckedControlAction DEPEND %CheckedHides DEFAULT TIMES 1
+WHEN  ('')TIMES 0
 
 %CheckedDisables DEPEND %Control MULTI LONG TIMES 0
 
 %CheckedDisableControl DEPEND %CheckedDisables DEFAULT TIMES 0
 
-%CheckedDisableControlAction DEPEND %CheckedDisables DEFAULT TIMES 0
+%CheckedDisableControlAction DEPEND %CheckedDisables DEFAULT TIMES 1
+WHEN  ('')TIMES 0
 
 %UncheckedAssigns DEPEND %Control MULTI LONG TIMES 0
 
@@ -1281,19 +1275,22 @@ WHEN  ('?Author:URL') (1)
 
 %UnCheckedControl DEPEND %UnCheckedHides DEFAULT TIMES 0
 
-%UnCheckedControlAction DEPEND %UnCheckedHides DEFAULT TIMES 0
+%UnCheckedControlAction DEPEND %UnCheckedHides DEFAULT TIMES 1
+WHEN  ('')TIMES 0
 
 %UnCheckedDisables DEPEND %Control MULTI LONG TIMES 0
 
 %UnCheckedDisableControl DEPEND %UnCheckedDisables DEFAULT TIMES 0
 
-%UnCheckedDisableControlAction DEPEND %UnCheckedDisables DEFAULT TIMES 0
+%UnCheckedDisableControlAction DEPEND %UnCheckedDisables DEFAULT TIMES 1
+WHEN  ('')TIMES 0
 
 %ExtUITabIcon DEPEND %Control DEFAULT TIMES 0
 
 %ExtUITabStyleOverrideGlobal DEPEND %Control LONG TIMES 0
 
-%ExtUITabStyle DEPEND %Control DEFAULT TIMES 0
+%ExtUITabStyle DEPEND %Control DEFAULT TIMES 1
+WHEN  ('') ('Default')
 
 [EMBED]
 EMBED %AfterWindowOpening

@@ -5,7 +5,6 @@ DICTIONARY 'Ham213.dct'
 PROCEDURE Main
 [COMMON]
 FROM Clarion
-MODIFIED '2011/12/05' '13:27:57'
 [PROMPTS]
 %GlobalUseABCClasess LONG  (0)
 %ClassItem UNIQUE DEFAULT  ('ClientSideTriggers:', 'ClientSideTriggers:ICS213', |
